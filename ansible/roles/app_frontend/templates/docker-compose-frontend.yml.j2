@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  {{ app.name }}-frontend:
+    image: {{ containers.frontend.image }}
+    container_name: {{ app.name }}-frontend
+    restart: unless-stopped
+    ports:
+      - "{{ containers.frontend.port }}:80"
+    environment:
+      - API_URL=https://{{ domains.api }}
+    deploy:
+      resources:
+        limits:
+          memory: {{ resource_limits.frontend.memory }}
+          cpus: "{{ resource_limits.frontend.cpus }}"

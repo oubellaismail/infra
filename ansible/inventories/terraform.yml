@@ -1,0 +1,34 @@
+# inventories/terraform.yml
+
+plugin: community.general.terraform
+source: cloud
+
+# --- Connection Details for Terraform Cloud ---
+cloud_hostname: app.terraform.io
+cloud_organization: '3assasa'
+cloud_workspace: 'devsecops-infra'
+
+# --- Host and Group Construction ---
+keyed_groups:
+  - key: env_name
+    prefix: env
+  - key: role
+    prefix: role
+
+compose:
+  ansible_host: >-
+    inventory_hostname.startswith('staging-frontend') ? tfe_outputs.staging_frontend_hostname.value :
+    inventory_hostname.startswith('production-frontend') ? tfe_outputs.production_frontend_hostname.value :
+    inventory_hostname.startswith('staging-bastion') ? tfe_outputs.staging_bastion_ip.value :
+    inventory_hostname.startswith('production-bastion') ? tfe_outputs.production_bastion_ip.value :
+    inventory_hostname.startswith('staging-backend') ? tfe_outputs.staging_backend_private_ip.value :
+    inventory_hostname.startswith('production-backend') ? tfe_outputs.production_backend_private_ip.value :
+    'unknown'
+
+  role: inventory_hostname.split('-')[1]
+  env_name: inventory_hostname.split('-')[0]
+
+  ansible_ssh_common_args: >-
+    inventory_hostname.endswith('-backend') and inventory_hostname.startswith('staging') ? '-o ProxyJump=root@' + tfe_outputs.staging_bastion_ip.value :
+    inventory_hostname.endswith('-backend') and inventory_hostname.startswith('production') ? '-o ProxyJump=root@' + tfe_outputs.production_bastion_ip.value :
+    ''

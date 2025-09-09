@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Log monitoring script for {{ app.name }}
+LOG_DIR="/var/log/{{ app.name }}"
+ERROR_COUNT=0
+ALERT_THRESHOLD=10
+
+if [ -d "$LOG_DIR" ]; then
+    ERROR_COUNT=$(find $LOG_DIR -name "*.log" -mmin -5 -exec grep -c "ERROR\|FATAL" {} + 2>/dev/null | awk '{sum+=$1} END {print sum+0}')
+fi
+
+echo "$(date): Errors: $ERROR_COUNT" >> /var/log/log_monitoring.log
+
+if [ "$ERROR_COUNT" -gt "$ALERT_THRESHOLD" ]; then
+    logger -p local0.alert "High error rate detected: $ERROR_COUNT errors in the last 5 minutes"
+fi

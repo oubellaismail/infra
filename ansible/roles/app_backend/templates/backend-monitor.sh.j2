@@ -1,0 +1,9 @@
+#!/bin/bash
+SERVICE_URL="http://localhost:{{ app.port }}/health"
+LOG_FILE="/var/log/{{ app.name }}/backend-monitor.log"
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$SERVICE_URL")
+
+if [ "$HTTP_CODE" -ne 200 ]; then
+    echo "$(date) - ERROR: Backend health check failed (HTTP $HTTP_CODE)" >> $LOG_FILE
+    # Add alerting logic here (e.g., send email or Slack notification)
+fi

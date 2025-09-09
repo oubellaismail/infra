@@ -1,0 +1,64 @@
+- name: Bootstrap Infrastructure - Initial Server Setup
+  hosts: all
+  gather_facts: true
+  serial: "{{ ansible_serial | default(1) }}"
+  vars:
+    ansible_ssh_retries: 3
+
+  pre_tasks:
+    - name: Wait for system to be ready
+      wait_for_connection:
+        connect_timeout: 20
+        sleep: 5
+        delay: 5
+        timeout: 300
+
+  roles:
+    - role: common
+      tags: ['common', 'bootstrap']
+    - role: ssh_hardening
+      tags: ['ssh', 'security', 'bootstrap']
+      when: inventory_hostname in groups['bastion']
+    - role: firewall
+      tags: ['firewall', 'security', 'bootstrap']
+    - role: fail2ban
+      tags: ['fail2ban', 'security', 'bootstrap']
+      when: inventory_hostname in groups['bastion']
+
+- name: Bootstrap Application Servers
+  hosts: app_servers
+  gather_facts: false
+  serial: "{{ ansible_serial | default(1) }}"
+
+  roles:
+    - role: docker_runtime
+      tags: ['docker', 'bootstrap']
+    - role: registry_login
+      tags: ['registry', 'bootstrap']
+
+- name: Bootstrap Frontend Servers
+  hosts: frontend
+  gather_facts: false
+  serial: "{{ ansible_serial | default(1) }}"
+
+  roles:
+    - role: nginx_tls
+      tags: ['nginx', 'tls', 'bootstrap']
+
+- name: Setup Monitoring and Observability
+  hosts: all
+  gather_facts: false
+  serial: "{{ ansible_serial | default(1) }}"
+
+  roles:
+    - role: observability
+      tags: ['monitoring', 'observability', 'bootstrap']
+
+- name: Verify Bootstrap
+  hosts: all
+  gather_facts: false
+  serial: "{{ ansible_serial | default(1) }}"
+
+  roles:
+    - role: verify
+      tags: ['verify', 'bootstrap']

@@ -1,0 +1,12 @@
+{
+  "log-driver": "{{ docker.daemon_options['log-driver'] }}",
+  "log-opts": {
+{% for key, value in docker.daemon_options['log-opts'].items() %}
+    "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+{% endfor %}
+  },
+  "storage-driver": "overlay2",
+  "metrics-addr": "127.0.0.1:9323",
+  "experimental": false,
+  "live-restore": true
+}

@@ -1,0 +1,147 @@
+2025-09-08 23:07:39,867 p=83550 u=book n=ansible INFO| [DEPRECATION WARNING]: [defaults]collections_paths option. Reason: does not fit var naming standard, use the singular form collections_path instead 
+Alternatives: none. This feature will be removed in version 2.19. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2025-09-08 23:07:41,128 p=83550 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with constructed plugin: Incorrect plugin name in
+file: community.general.terraform
+
+2025-09-08 23:07:41,128 p=83550 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with ini plugin: Invalid host pattern 'plugin:'
+supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+2025-09-08 23:07:41,128 p=83550 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with yaml plugin: Plugin configuration YAML file,
+not YAML inventory
+
+2025-09-08 23:07:41,128 p=83550 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-08 23:07:41,129 p=83550 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-08 23:07:41,137 p=83550 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-08 23:07:42,447 p=83550 u=book n=ansible ERROR| ERROR! conflicting action statements: assert, fail_msg
+
+The error appears to be in '/Users/book/Developer/delivery-tracker-app/ansible/roles/verify/tasks/main.yml': line 32, column 3, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+- name: Assert container health
+  ^ here
+
+2025-09-08 23:11:19,454 p=83663 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with constructed plugin: Incorrect plugin name in
+file: community.general.terraform
+
+2025-09-08 23:11:19,454 p=83663 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with ini plugin: Invalid host pattern 'plugin:'
+supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+2025-09-08 23:11:19,455 p=83663 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with yaml plugin: Plugin configuration YAML file,
+not YAML inventory
+
+2025-09-08 23:11:19,457 p=83663 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-08 23:11:19,457 p=83663 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-08 23:11:19,464 p=83663 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-08 23:11:20,006 p=83663 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: app_servers
+
+2025-09-08 23:11:20,010 p=83663 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-08 23:11:20,017 p=83663 u=book n=ansible INFO| playbook: playbooks/bootstrap.yml
+2025-09-08 23:11:20,672 p=83672 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with constructed plugin: Incorrect plugin name in
+file: community.general.terraform
+
+2025-09-08 23:11:20,672 p=83672 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with ini plugin: Invalid host pattern 'plugin:'
+supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+2025-09-08 23:11:20,672 p=83672 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with yaml plugin: Plugin configuration YAML file,
+not YAML inventory
+
+2025-09-08 23:11:20,673 p=83672 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-08 23:11:20,673 p=83672 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-08 23:11:20,678 p=83672 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-08 23:11:20,863 p=83672 u=book n=ansible ERROR| ERROR! [DEPRECATED]: community.docker.docker_compose has been removed. This module uses docker-compose v1, which is End of Life since July 2022. Please migrate to community.docker.docker_compose_v2. This feature was removed from community.docker in version 4.0.0. Please update your playbooks.
+
+The error appears to be in '/Users/book/Developer/delivery-tracker-app/ansible/roles/app_backend/tasks/main.yml': line 22, column 3, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+- name: Start backend application
+  ^ here
+
+2025-09-08 23:13:51,738 p=83754 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with constructed plugin: Incorrect plugin name in
+file: community.general.terraform
+
+2025-09-08 23:13:51,739 p=83754 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with ini plugin: Invalid host pattern 'plugin:'
+supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+2025-09-08 23:13:51,740 p=83754 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with yaml plugin: Plugin configuration YAML file,
+not YAML inventory
+
+2025-09-08 23:13:51,740 p=83754 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-08 23:13:51,740 p=83754 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-08 23:13:51,746 p=83754 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-08 23:13:52,215 p=83754 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: app_servers
+
+2025-09-08 23:13:52,220 p=83754 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-08 23:13:52,226 p=83754 u=book n=ansible INFO| playbook: playbooks/bootstrap.yml
+2025-09-08 23:13:52,878 p=83764 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with constructed plugin: Incorrect plugin name in
+file: community.general.terraform
+
+2025-09-08 23:13:52,878 p=83764 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with ini plugin: Invalid host pattern 'plugin:'
+supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+2025-09-08 23:13:52,878 p=83764 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with yaml plugin: Plugin configuration YAML file,
+not YAML inventory
+
+2025-09-08 23:13:52,878 p=83764 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-08 23:13:52,879 p=83764 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-08 23:13:52,884 p=83764 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-08 23:13:53,104 p=83764 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: backend
+
+2025-09-08 23:13:53,119 p=83764 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-08 23:13:53,125 p=83764 u=book n=ansible INFO| playbook: playbooks/deploy.yml
+2025-09-08 23:13:53,743 p=83775 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with constructed plugin: Incorrect plugin name in
+file: community.general.terraform
+
+2025-09-08 23:13:53,744 p=83775 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with ini plugin: Invalid host pattern 'plugin:'
+supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+2025-09-08 23:13:53,744 p=83775 u=book n=ansible WARNING| [WARNING]:  * Failed to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml with yaml plugin: Plugin configuration YAML file,
+not YAML inventory
+
+2025-09-08 23:13:53,744 p=83775 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-08 23:13:53,744 p=83775 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-08 23:13:53,749 p=83775 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-08 23:13:53,993 p=83775 u=book n=ansible INFO| [DEPRECATION WARNING]: community.general.yaml has been deprecated. The plugin has been superseded by the the option `result_format=yaml` in callback plugin 
+ansible.builtin.default from ansible-core 2.13 onwards. This feature will be removed from community.general in version 12.0.0. Deprecation warnings can be 
+disabled by setting deprecation_warnings=False in ansible.cfg.
+2025-09-08 23:13:54,073 p=83775 u=book n=ansible INFO| PLAY [Bootstrap Infrastructure - Initial Server Setup] *******************************************************************************************************
+2025-09-08 23:13:54,073 p=83775 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-08 23:13:54,073 p=83775 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: app_servers
+
+2025-09-08 23:13:54,077 p=83775 u=book n=ansible INFO| PLAY [Bootstrap Application Servers] *************************************************************************************************************************
+2025-09-08 23:13:54,077 p=83775 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-08 23:13:54,077 p=83775 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-08 23:13:54,080 p=83775 u=book n=ansible INFO| PLAY [Bootstrap Frontend Servers] ****************************************************************************************************************************
+2025-09-08 23:13:54,080 p=83775 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-08 23:13:54,083 p=83775 u=book n=ansible INFO| PLAY [Setup Monitoring and Observability] ********************************************************************************************************************
+2025-09-08 23:13:54,083 p=83775 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-08 23:13:54,086 p=83775 u=book n=ansible INFO| PLAY [Verify Bootstrap] **************************************************************************************************************************************
+2025-09-08 23:13:54,086 p=83775 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-08 23:13:54,086 p=83775 u=book n=ansible INFO| PLAY RECAP ***************************************************************************************************************************************************

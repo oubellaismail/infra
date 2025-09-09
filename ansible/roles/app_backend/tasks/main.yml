@@ -1,0 +1,37 @@
+- name: Create backend application directories
+  file:
+    path: "/opt/{{ app.name }}/backend"
+    state: directory
+    owner: "{{ app.name }}"
+    group: "{{ app.name }}"
+    mode: '0755'
+
+- name: Create backend environment file
+  template:
+    src: backend.env.j2
+    dest: "/opt/{{ app.name }}/backend/.env"
+    owner: "{{ app.name }}"
+    group: "{{ app.name }}"
+    mode: '0600'
+
+- name: Create backend docker-compose file
+  template:
+    src: docker-compose-backend.yml.j2
+    dest: "/opt/{{ app.name }}/backend/docker-compose.yml"
+
+- name: Start backend application
+  community.docker.docker_compose_v2:
+    project_src: "/opt/{{ app.name }}/backend"
+    state: present
+    pull: yes 
+
+- name: Run database migrations
+  command: "/opt/{{ app.name }}/backend/migrate-db.sh"
+  when: run_migrations | default(true)
+  tags: ['migrations']
+
+- name: Add backend monitoring cron job
+  cron:
+    name: "Backend health monitoring"
+    minute: "*/2"
+    job: "/usr/local/bin/backend-monitor.sh"

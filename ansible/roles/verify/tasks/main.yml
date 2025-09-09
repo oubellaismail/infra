@@ -1,0 +1,56 @@
+- name: Check system uptime
+  command: uptime
+  register: system_uptime
+  changed_when: false
+
+- name: Display system uptime
+  debug:
+    var: system_uptime.stdout
+
+- name: Verify critical services are running
+  service_facts:
+
+- name: Assert critical services
+  assert:
+    that:
+      - "ansible_facts.services[item + '.service']['state'] == 'running'"
+    fail_msg: "Service {{ item }} is NOT running"
+    success_msg: "Service {{ item }} is running"
+  loop:
+    - ssh
+    - rsyslog
+    - docker
+    - nginx
+  when: item in ansible_facts.services
+
+- name: Check application container health
+  docker_container_info:
+    name: "{{ app.name }}-{{ role }}"
+  register: container_info
+  when: inventory_hostname in groups['app_servers']
+
+- name: Assert container health
+  assert:
+    that:
+      - container_info.container.State.Status == 'running'
+    fail_msg: "Container {{ app.name }}-{{ role }} is NOT running"
+  when: container_info.exists
+
+- name: Test external application endpoint
+  uri:
+    url: "https://{{ domains.frontend }}/health"
+    status_code: 200
+  when: inventory_hostname in groups['frontend']
+
+- name: Check SSL certificate expiration
+  openssl_certificate_info:
+    path: "/etc/letsencrypt/live/{{ domains.frontend }}/fullchain.pem"
+  register: cert_info
+  when: inventory_hostname in groups['frontend']
+
+- name: Assert SSL certificate validity
+  assert:
+    that:
+      - "(cert_info.not_after | to_datetime('%Y%m%d%H%M%SZ')) > (ansible_date_time.epoch | int + 86400 * 30)"
+    fail_msg: "SSL certificate for {{ domains.frontend }} expires in less than 30 days!"
+  when: cert_info.exists

@@ -1,0 +1,11 @@
+[DEFAULT]
+bantime = {{ fail2ban.bantime }}
+findtime = {{ fail2ban.findtime }}
+maxretry = {{ fail2ban.maxretry }}
+destemail = {{ ssl.email }}
+sender = fail2ban@{{ app.domain }}
+action = %(action_mwl)s
+
+[sshd]
+enabled = true
+port = {{ security.ssh_port }}

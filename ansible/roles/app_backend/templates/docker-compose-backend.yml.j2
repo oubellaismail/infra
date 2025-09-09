@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  {{ app.name }}-backend:
+    image: {{ containers.backend.image }}
+    container_name: {{ app.name }}-backend
+    restart: unless-stopped
+    ports:
+      - "{{ app.port }}:{{ app.port }}"
+    env_file:
+      - .env
+    volumes:
+      - backend-logs:/app/logs
+    deploy:
+      resources:
+        limits:
+          memory: {{ resource_limits.backend.memory }}
+          cpus: "{{ resource_limits.backend.cpus }}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:{{ app.port }}/health"]
+      interval: {{ containers.backend.health_check.interval }}
+      timeout: {{ containers.backend.health_check.timeout }}
+      retries: {{ containers.backend.health_check.retries }}
+
+volumes:
+  backend-logs:
