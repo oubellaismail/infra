@@ -145,3 +145,1254 @@ disabled by setting deprecation_warnings=False in ansible.cfg.
 2025-09-08 23:13:54,086 p=83775 u=book n=ansible INFO| PLAY [Verify Bootstrap] **************************************************************************************************************************************
 2025-09-08 23:13:54,086 p=83775 u=book n=ansible INFO| skipping: no hosts matched
 2025-09-08 23:13:54,086 p=83775 u=book n=ansible INFO| PLAY RECAP ***************************************************************************************************************************************************
+2025-09-09 22:02:48,715 p=94925 u=book n=ansible WARNING| [WARNING]: Deprecation warnings can be disabled by setting `deprecation_warnings=False` in ansible.cfg.
+
+2025-09-09 22:02:48,716 p=94925 u=book n=ansible INFO| [DEPRECATION WARNING]: DEFAULT_JINJA2_EXTENSIONS option. Reason: Jinja2 extensions have been deprecated
+Alternatives: Ansible-supported Jinja plugins (tests, filters, lookups). This feature will be removed from ansible-core version 2.23.
+
+
+2025-09-09 22:02:48,718 p=94925 u=book n=ansible INFO| [DEPRECATION WARNING]: DEFAULT_MANAGED_STR option. Reason: The `ansible_managed` variable can be set just like any other variable, or a different variable can be used.
+Alternatives: Set the `ansible_managed` variable, or use any custom variable in templates. This feature will be removed from ansible-core version 2.23.
+
+
+2025-09-09 22:02:49,978 p=94925 u=book n=ansible INFO| {
+    "_meta": {
+        "hostvars": {
+            "production-backend": {
+                "ansible_host": "10.114.16.3",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_common_args": "-o ProxyJump=root@139.59.214.218",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "production",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "backend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "production-bastion": {
+                "ansible_host": "139.59.214.218",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "production",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "bastion",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "production-frontend": {
+                "ansible_host": "3assasa.software",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "production",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "frontend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "staging-backend": {
+                "ansible_host": "10.114.16.7",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_common_args": "-o ProxyJump=root@142.93.168.88",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "staging",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "backend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "staging-bastion": {
+                "ansible_host": "142.93.168.88",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "staging",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "bastion",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "staging-frontend": {
+                "ansible_host": "staging.3assasa.software",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "staging",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "frontend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            }
+        },
+        "profile": "inventory_legacy"
+    },
+    "all": {
+        "children": [
+            "ungrouped"
+        ]
+    },
+    "ungrouped": {
+        "hosts": [
+            "production-backend",
+            "production-bastion",
+            "production-frontend",
+            "staging-backend",
+            "staging-bastion",
+            "staging-frontend"
+        ]
+    }
+}
+2025-09-09 22:03:35,092 p=94956 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: cloud.terraform.terraform_state
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: cloud.terraform.terraform_state
+Origin: <inventory plugin 'constructed' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml'>
+
+
+2025-09-09 22:03:35,093 p=94956 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'ini' plugin: Failed to parse inventory: Invalid host pattern 'plugin:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+Failed to parse inventory with 'ini' plugin.
+
+<<< caused by >>>
+
+Failed to parse inventory: Invalid host pattern 'plugin:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+Origin: /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml
+
+
+2025-09-09 22:03:35,094 p=94956 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'yaml' plugin: Plugin configuration YAML file, not YAML inventory
+
+Failed to parse inventory with 'yaml' plugin.
+
+<<< caused by >>>
+
+Plugin configuration YAML file, not YAML inventory
+Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml'>
+
+
+2025-09-09 22:03:35,094 p=94956 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-09 22:03:35,095 p=94956 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-09 22:03:35,103 p=94956 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-09 22:03:35,103 p=94956 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: staging
+
+2025-09-09 22:03:49,941 p=94968 u=book n=ansible INFO| {
+    "_meta": {
+        "hostvars": {
+            "production-backend": {
+                "ansible_host": "10.114.16.3",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_common_args": "-o ProxyJump=root@139.59.214.218",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "production",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "backend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "production-bastion": {
+                "ansible_host": "139.59.214.218",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "production",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "bastion",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "production-frontend": {
+                "ansible_host": "3assasa.software",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "production",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "frontend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "staging-backend": {
+                "ansible_host": "10.114.16.7",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_common_args": "-o ProxyJump=root@142.93.168.88",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "staging",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "backend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "staging-bastion": {
+                "ansible_host": "142.93.168.88",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "staging",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "bastion",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            },
+            "staging-frontend": {
+                "ansible_host": "staging.3assasa.software",
+                "ansible_python_interpreter": "/usr/bin/python3",
+                "ansible_ssh_private_key_file": "~/.ssh/id_rsa",
+                "ansible_user": "root",
+                "app": {
+                    "domain": "3assasa.software",
+                    "frontend_port": 80,
+                    "https_port": 443,
+                    "name": "delivery-tracker",
+                    "port": 8080
+                },
+                "backup": {
+                    "enabled": true,
+                    "retention_days": 30
+                },
+                "common_packages": [
+                    "curl",
+                    "wget",
+                    "htop",
+                    "vim",
+                    "git",
+                    "unzip",
+                    "ca-certificates",
+                    "gnupg",
+                    "lsb-release"
+                ],
+                "docker": {
+                    "daemon_options": {
+                        "log-driver": "json-file",
+                        "log-opts": {
+                            "max-file": "3",
+                            "max-size": "10m"
+                        }
+                    },
+                    "users": [
+                        "root"
+                    ],
+                    "version": "latest"
+                },
+                "env_name": "staging",
+                "monitoring": {
+                    "enabled": true,
+                    "metrics_port": 9090
+                },
+                "registry": {
+                    "namespace": "3assasa",
+                    "url": "registry.digitalocean.com"
+                },
+                "role": "frontend",
+                "security": {
+                    "disable_password_auth": true,
+                    "disable_root_login": false,
+                    "fail2ban_enabled": true,
+                    "ssh_port": 22,
+                    "ufw_enabled": true
+                },
+                "ssl": {
+                    "cert_path": "/etc/ssl/certs",
+                    "email": "admin@3assasa.software",
+                    "key_path": "/etc/ssl/private"
+                },
+                "system_limits": {
+                    "hard_nofile": 65536,
+                    "soft_nofile": 65536
+                },
+                "timezone": "UTC"
+            }
+        },
+        "profile": "inventory_legacy"
+    },
+    "all": {
+        "children": [
+            "ungrouped"
+        ]
+    },
+    "ungrouped": {
+        "hosts": [
+            "production-backend",
+            "production-bastion",
+            "production-frontend",
+            "staging-backend",
+            "staging-bastion",
+            "staging-frontend"
+        ]
+    }
+}
+2025-09-09 22:03:54,285 p=94975 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: cloud.terraform.terraform_state
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: cloud.terraform.terraform_state
+Origin: <inventory plugin 'constructed' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml'>
+
+
+2025-09-09 22:03:54,286 p=94975 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'ini' plugin: Failed to parse inventory: Invalid host pattern 'plugin:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+Failed to parse inventory with 'ini' plugin.
+
+<<< caused by >>>
+
+Failed to parse inventory: Invalid host pattern 'plugin:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+Origin: /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml
+
+
+2025-09-09 22:03:54,287 p=94975 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'yaml' plugin: Plugin configuration YAML file, not YAML inventory
+
+Failed to parse inventory with 'yaml' plugin.
+
+<<< caused by >>>
+
+Plugin configuration YAML file, not YAML inventory
+Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml'>
+
+
+2025-09-09 22:03:54,288 p=94975 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-09 22:03:54,288 p=94975 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-09 22:03:54,295 p=94975 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-09 22:03:54,295 p=94975 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: staging
+
+2025-09-09 22:05:01,992 p=95003 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: app_servers
+
+2025-09-09 22:05:01,996 p=95003 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-09 22:05:02,002 p=95003 u=book n=ansible INFO| playbook: playbooks/bootstrap.yml
+2025-09-09 22:05:02,734 p=95006 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: backend
+
+2025-09-09 22:05:02,742 p=95006 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-09 22:05:02,746 p=95006 u=book n=ansible INFO| playbook: playbooks/deploy.yml
+2025-09-09 22:05:23,634 p=95018 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: staging
+
+2025-09-09 22:05:23,634 p=95018 u=book n=ansible ERROR| [ERROR]: Specified inventory, host pattern and/or --limit leaves us with no hosts to target.
+
+2025-09-09 22:54:33,098 p=95586 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-09 22:56:16,316 p=95648 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-09 22:57:22,563 p=95703 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-09 22:57:35,154 p=95720 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: staging
+
+2025-09-09 22:57:35,154 p=95720 u=book n=ansible WARNING| [WARNING]: No hosts matched, nothing to do
+
+2025-09-09 22:58:02,926 p=95728 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-09 23:01:01,371 p=95807 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: none found
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: none found
+Origin: <inventory plugin 'constructed' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-09 23:01:01,373 p=95807 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'ini' plugin: Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+Failed to parse inventory with 'ini' plugin.
+
+<<< caused by >>>
+
+Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+Origin: /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml
+
+
+2025-09-09 23:01:01,373 p=95807 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'yaml' plugin: Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+
+Failed to parse inventory with 'yaml' plugin.
+
+<<< caused by >>>
+
+Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-09 23:01:01,374 p=95807 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml as an inventory source
+
+2025-09-09 23:01:01,375 p=95807 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-09 23:01:01,383 p=95807 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |--@staging:
+  |  |--@staging_bastion:
+  |  |  |--staging-bastion
+  |  |--@staging_frontend:
+  |  |  |--staging-frontend
+  |  |--@staging_backend:
+  |  |  |--staging-backend
+  |--@production:
+  |  |--@production_bastion:
+  |  |  |--production-bastion
+  |  |--@production_frontend:
+  |  |  |--production-frontend
+  |  |--@production_backend:
+  |  |  |--production-backend
+2025-09-09 23:01:22,327 p=95817 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: none found
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: none found
+Origin: <inventory plugin 'constructed' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-09 23:01:22,328 p=95817 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'ini' plugin: Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+Failed to parse inventory with 'ini' plugin.
+
+<<< caused by >>>
+
+Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+Origin: /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml
+
+
+2025-09-09 23:01:22,329 p=95817 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'yaml' plugin: Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+
+Failed to parse inventory with 'yaml' plugin.
+
+<<< caused by >>>
+
+Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-09 23:01:22,330 p=95817 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml as an inventory source
+
+2025-09-09 23:01:22,330 p=95817 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-09 23:02:45,988 p=95817 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-09 23:02:45,991 p=95817 u=book n=ansible ERROR| [ERROR]: Task failed: Action failed: Module result deserialization failed: No start of json char found
+
+Task failed: Action failed.
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+<<< caused by >>>
+
+Module result deserialization failed: No start of json char found See stdout/stderr for the returned output.
+
+
+2025-09-09 23:02:45,993 p=95817 u=book n=ansible INFO| staging-backend | FAILED! => {
+    "changed": false,
+    "module_stderr": "",
+    "module_stdout": "",
+    "msg": "Module result deserialization failed: No start of json char found",
+    "rc": -2
+}
+2025-09-09 23:02:45,995 p=95817 u=book n=ansible INFO| staging-frontend | FAILED! => {
+    "changed": false,
+    "module_stderr": "",
+    "module_stdout": "",
+    "msg": "Module result deserialization failed: No start of json char found",
+    "rc": -2
+}
+2025-09-09 23:02:46,000 p=95817 u=book n=ansible ERROR| [ERROR]: A worker was found in a dead state
+
+2025-09-10 20:54:03,730 p=6149 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-10 20:54:19,579 p=6157 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: none found
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: none found
+Origin: <inventory plugin 'constructed' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-10 20:54:19,580 p=6157 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'ini' plugin: Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+Failed to parse inventory with 'ini' plugin.
+
+<<< caused by >>>
+
+Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+Origin: /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml
+
+
+2025-09-10 20:54:19,580 p=6157 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'yaml' plugin: Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+
+Failed to parse inventory with 'yaml' plugin.
+
+<<< caused by >>>
+
+Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-10 20:54:19,581 p=6157 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml as an inventory source
+
+2025-09-10 20:54:19,581 p=6157 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-10 20:54:19,927 p=6157 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: app_servers
+
+2025-09-10 20:54:19,931 p=6157 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-10 20:54:19,937 p=6157 u=book n=ansible INFO| playbook: playbooks/bootstrap.yml
+2025-09-10 20:54:20,568 p=6159 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: none found
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: none found
+Origin: <inventory plugin 'constructed' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-10 20:54:20,569 p=6159 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'ini' plugin: Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+Failed to parse inventory with 'ini' plugin.
+
+<<< caused by >>>
+
+Failed to parse inventory: Invalid host pattern 'all:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+Origin: /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml
+
+
+2025-09-10 20:54:20,569 p=6159 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'yaml' plugin: Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+
+Failed to parse inventory with 'yaml' plugin.
+
+<<< caused by >>>
+
+Invalid "children" entry for "bastion" group, requires a dictionary, found "<class 'ansible.module_utils._internal._datatag._AnsibleTaggedList'>" instead.
+Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml'>
+
+
+2025-09-10 20:54:20,570 p=6159 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/hosts.yml as an inventory source
+
+2025-09-10 20:54:20,570 p=6159 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-10 20:54:20,721 p=6159 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: backend
+
+2025-09-10 20:54:20,730 p=6159 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-10 20:54:20,733 p=6159 u=book n=ansible INFO| playbook: playbooks/deploy.yml
+2025-09-10 20:54:21,410 p=6162 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: cloud.terraform.terraform_state
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: cloud.terraform.terraform_state
+Origin: <inventory plugin 'constructed' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml'>
+
+
+2025-09-10 20:54:21,410 p=6162 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'ini' plugin: Failed to parse inventory: Invalid host pattern 'plugin:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+
+Failed to parse inventory with 'ini' plugin.
+
+<<< caused by >>>
+
+Failed to parse inventory: Invalid host pattern 'plugin:' supplied, ending in ':' is not allowed, this character is reserved to provide a port.
+Origin: /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml
+
+
+2025-09-10 20:54:21,411 p=6162 u=book n=ansible WARNING| [WARNING]: Failed to parse inventory with 'yaml' plugin: Plugin configuration YAML file, not YAML inventory
+
+Failed to parse inventory with 'yaml' plugin.
+
+<<< caused by >>>
+
+Plugin configuration YAML file, not YAML inventory
+Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml'>
+
+
+2025-09-10 20:54:21,411 p=6162 u=book n=ansible WARNING| [WARNING]: Unable to parse /Users/book/Developer/delivery-tracker-app/ansible/inventories/terraform.yml as an inventory source
+
+2025-09-10 20:54:21,412 p=6162 u=book n=ansible WARNING| [WARNING]: No inventory was parsed, only implicit localhost is available
+
+2025-09-10 20:54:21,419 p=6162 u=book n=ansible WARNING| [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2025-09-10 20:54:21,646 p=6162 u=book n=ansible INFO| PLAY [Bootstrap Infrastructure - Initial Server Setup] *******************************************************************************************************
+2025-09-10 20:54:21,646 p=6162 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-10 20:54:21,647 p=6162 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: app_servers
+
+2025-09-10 20:54:21,650 p=6162 u=book n=ansible INFO| PLAY [Bootstrap Application Servers] *************************************************************************************************************************
+2025-09-10 20:54:21,650 p=6162 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-10 20:54:21,650 p=6162 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-10 20:54:21,652 p=6162 u=book n=ansible INFO| PLAY [Bootstrap Frontend Servers] ****************************************************************************************************************************
+2025-09-10 20:54:21,652 p=6162 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-10 20:54:21,654 p=6162 u=book n=ansible INFO| PLAY [Setup Monitoring and Observability] ********************************************************************************************************************
+2025-09-10 20:54:21,654 p=6162 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-10 20:54:21,656 p=6162 u=book n=ansible INFO| PLAY [Verify Bootstrap] **************************************************************************************************************************************
+2025-09-10 20:54:21,656 p=6162 u=book n=ansible INFO| skipping: no hosts matched
+2025-09-10 20:54:21,656 p=6162 u=book n=ansible INFO| PLAY RECAP ***************************************************************************************************************************************************

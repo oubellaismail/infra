@@ -1,4 +1,4 @@
-.PHONY: help bootstrap deploy verify clean check-syntax lint staging production
+.PHONY: help bootstrap deploy verify clean check-syntax lint staging production inventory
 
 # Default variables
 ENV ?= staging
@@ -10,6 +10,7 @@ ANSIBLE_ARGS ?=
 # Help target
 help:
 	@echo "Available targets:"
+	@echo "  inventory      - Generate inventory from Terraform outputs"
 	@echo "  bootstrap      - Run initial server setup (steps 1-12)"
 	@echo "  deploy         - Deploy applications (steps 13-16)"
 	@echo "  verify         - Run verification checks"
@@ -25,6 +26,22 @@ help:
 	@echo "  LIMIT=host1,host2       - Limit to specific hosts"
 	@echo "  VERBOSE=-v|-vv|-vvv     - Verbosity level"
 
+# Generate inventory from Terraform
+inventory:
+	@echo "Generating inventory from Terraform..."
+	@if [ -d "../infra" ]; then \
+		cd ../infra && terraform output -json > ../ansible/terraform_outputs.json; \
+		cd ../ansible && python3 scripts/generate_inventory.py; \
+	else \
+		echo "Error: ../infra directory not found. Make sure Terraform is deployed first."; \
+		exit 1; \
+	fi
+
+# Test inventory
+test-inventory:
+	@echo "Testing inventory configuration..."
+	@ansible-inventory --list -i inventories/terraform.yml
+
 # Syntax checking
 check-syntax:
 	@echo "Checking Ansible playbook syntax..."
@@ -34,7 +51,7 @@ check-syntax:
 # Linting
 lint:
 	@echo "Running ansible-lint..."
-	@ansible-lint playbooks/ roles/
+	@ansible-lint playbooks/ roles/ --exclude=.github/
 
 # Bootstrap infrastructure
 bootstrap: check-syntax
@@ -57,10 +74,10 @@ deploy: check-syntax
 		$(VERBOSE) $(ANSIBLE_ARGS)
 
 # Full deployment (bootstrap + deploy)
-full-deploy: bootstrap deploy
+full-deploy: inventory bootstrap deploy
 
 # Verification
-verify: inventory
+verify:
 	@echo "Running verification checks on $(ENV)..."
 	ansible-playbook playbooks/bootstrap.yml \
 		-i inventories/terraform.yml \
@@ -124,7 +141,7 @@ clean:
 	@rm -f *.retry
 	@rm -f terraform_outputs.json
 	@find . -name "*.pyc" -delete
-	@find . -name "__pycache__" -type d -exec rm -rf {} +
+	@find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
 
 # Emergency maintenance mode
 maintenance-on:
@@ -157,3 +174,10 @@ security-update:
 		-l $(ENV) \
 		-m apt -a "upgrade=safe update_cache=yes" \
 		-b $(VERBOSE)
+
+# Ping test
+ping:
+	@echo "Testing connectivity to $(ENV) hosts..."
+	ansible all -i inventories/terraform.yml \
+		-l $(ENV) \
+		-m ping $(VERBOSE)
