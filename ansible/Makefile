@@ -57,7 +57,7 @@ lint:
 bootstrap: check-syntax
 	@echo "Bootstrapping $(ENV) environment..."
 	ansible-playbook playbooks/bootstrap.yml \
-		-i inventories/terraform.yml \
+		-i inventories/from_terraform.yml \
 		-l $(ENV) \
 		$(if $(TAGS),--tags $(TAGS)) \
 		$(if $(LIMIT),--limit $(LIMIT)) \

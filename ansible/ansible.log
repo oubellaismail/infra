@@ -1396,3 +1396,236 @@ Origin: <inventory plugin 'yaml' with source '/Users/book/Developer/delivery-tra
 2025-09-10 20:54:21,656 p=6162 u=book n=ansible INFO| PLAY [Verify Bootstrap] **************************************************************************************************************************************
 2025-09-10 20:54:21,656 p=6162 u=book n=ansible INFO| skipping: no hosts matched
 2025-09-10 20:54:21,656 p=6162 u=book n=ansible INFO| PLAY RECAP ***************************************************************************************************************************************************
+2025-09-10 21:14:42,508 p=6831 u=book n=ansible INFO| {
+    "_meta": {
+        "hostvars": {
+            "production-backend": {
+                "ansible_host": "10.114.16.7",
+                "ansible_ssh_common_args": "-o ProxyJump=root@138.68.76.151",
+                "env_name": "production",
+                "role": "backend"
+            },
+            "production-bastion": {
+                "ansible_host": "138.68.76.151",
+                "env_name": "production",
+                "role": "bastion"
+            },
+            "production-frontend": {
+                "ansible_host": "3assasa.software",
+                "env_name": "production",
+                "role": "frontend"
+            },
+            "staging-backend": {
+                "ansible_host": "10.114.16.2",
+                "ansible_ssh_common_args": "-o ProxyJump=root@164.92.129.218",
+                "env_name": "staging",
+                "role": "backend"
+            },
+            "staging-bastion": {
+                "ansible_host": "164.92.129.218",
+                "env_name": "staging",
+                "role": "bastion"
+            },
+            "staging-frontend": {
+                "ansible_host": "staging.3assasa.software",
+                "env_name": "staging",
+                "role": "frontend"
+            }
+        },
+        "profile": "inventory_legacy"
+    },
+    "all": {
+        "children": [
+            "ungrouped"
+        ]
+    },
+    "ungrouped": {
+        "hosts": [
+            "production-backend",
+            "production-bastion",
+            "production-frontend",
+            "staging-backend",
+            "staging-bastion",
+            "staging-frontend"
+        ]
+    }
+}
+2025-09-10 21:14:55,586 p=6845 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: app_servers
+
+2025-09-10 21:14:55,591 p=6845 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-10 21:14:55,595 p=6845 u=book n=ansible INFO| playbook: playbooks/bootstrap.yml
+2025-09-10 21:14:56,347 p=6847 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: backend
+
+2025-09-10 21:14:56,355 p=6847 u=book n=ansible WARNING| [WARNING]: Could not match supplied host pattern, ignoring: frontend
+
+2025-09-10 21:14:56,359 p=6847 u=book n=ansible INFO| playbook: playbooks/deploy.yml
+2025-09-10 21:14:57,222 p=6850 u=book n=ansible INFO| PLAY [Bootstrap Infrastructure - Initial Server Setup] *******************************************************************************************************
+2025-09-10 21:14:57,250 p=6850 u=book n=ansible INFO| TASK [Gathering Facts] ***************************************************************************************************************************************
+2025-09-10 21:17:01,837 p=6850 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-10 21:17:01,839 p=6850 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection timed out during banner exchange
+Connection to UNKNOWN port 65535 timed out
+
+Task failed.
+
+<<< caused by >>>
+
+Failed to connect to the host via ssh: Connection timed out during banner exchange
+Connection to UNKNOWN port 65535 timed out
+
+
+2025-09-10 21:17:01,845 p=6850 u=book n=ansible INFO| fatal: [production-backend]: UNREACHABLE! => changed=false 
+  msg: |-
+    Task failed: Failed to connect to the host via ssh: Connection timed out during banner exchange
+    Connection to UNKNOWN port 65535 timed out
+  unreachable: true
+2025-09-10 21:17:01,847 p=6850 u=book n=ansible INFO| 	to retry, use: --limit @/Users/book/Developer/delivery-tracker-app/ansible/retry/bootstrap.retry
+
+2025-09-10 21:17:01,847 p=6850 u=book n=ansible INFO| PLAY RECAP ***************************************************************************************************************************************************
+2025-09-10 21:17:01,848 p=6850 u=book n=ansible INFO| production-backend         : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2025-09-10 21:19:53,211 p=7016 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-11 17:41:52,592 p=17834 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-11 18:20:32,353 p=18750 u=book n=ansible INFO| @all:
+  |--@ungrouped:
+  |--@app_servers:
+  |  |--production-backend
+  |  |--production-frontend
+  |  |--staging-backend
+  |  |--staging-frontend
+  |--@backend:
+  |  |--production-backend
+  |  |--staging-backend
+  |--@bastion:
+  |  |--production-bastion
+  |  |--staging-bastion
+  |--@frontend:
+  |  |--production-frontend
+  |  |--staging-frontend
+  |--@production:
+  |  |--production-backend
+  |  |--production-bastion
+  |  |--production-frontend
+  |--@staging:
+  |  |--staging-backend
+  |  |--staging-bastion
+  |  |--staging-frontend
+2025-09-11 18:54:27,418 p=19400 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-11 18:54:27,420 p=19400 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3.10"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-11 18:54:46,825 p=19415 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-11 18:54:46,827 p=19415 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-11 18:54:53,497 p=19415 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+Task failed.
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+<<< caused by >>>
+
+Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+
+2025-09-11 18:54:53,498 p=19415 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-11 18:56:50,442 p=19415 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: ssh: connect to host staging.3assasa.software port 22: No route to host
+
+Task failed.
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+<<< caused by >>>
+
+Failed to connect to the host via ssh: ssh: connect to host staging.3assasa.software port 22: No route to host
+
+
+2025-09-11 18:56:50,446 p=19415 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: ssh: connect to host staging.3assasa.software port 22: No route to host",
+    "unreachable": true
+}
+2025-09-11 19:11:23,149 p=19785 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-11 19:11:23,152 p=19785 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-11 19:11:27,792 p=19785 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+Task failed.
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+<<< caused by >>>
+
+Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+
+2025-09-11 19:11:27,793 p=19785 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-11 19:11:27,983 p=19785 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-11 19:33:36,966 p=20265 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-11 19:33:36,970 p=20265 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-11 19:33:42,494 p=20265 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+Task failed.
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+<<< caused by >>>
+
+Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+
+2025-09-11 19:33:42,495 p=20265 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-11 19:33:42,502 p=20265 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
