@@ -15,7 +15,7 @@ def load_terraform_outputs(filepath='terraform_outputs.json'):
         sys.exit(1)
 
 def main():
-    """Generate inventory with proper groups and private IPs for SSH."""
+    """Generate inventory with proper SSH ProxyJump configuration for Ansible."""
     tf_outputs = load_terraform_outputs()
     
     # Build hosts
@@ -32,7 +32,7 @@ def main():
         frontend_private_ip = tf_outputs.get(f'{env}_frontend_private_ip', {}).get('value')
         backend_private_ip = tf_outputs.get(f'{env}_backend_private_ip', {}).get('value')
 
-        # Bastion
+        # Bastion - direct connection
         if bastion_ip:
             host_key = f"{env}-bastion"
             host_config = {
@@ -48,14 +48,17 @@ def main():
             else:
                 production_hosts[host_key] = host_config
 
-        # Frontend - Use PRIVATE IP for SSH through bastion
+        # Frontend - FIXED: Use ansible_ssh_proxy_command instead of ansible_ssh_common_args
         if frontend_private_ip and bastion_ip:
             host_key = f"{env}-frontend"
             host_config = {
-                'ansible_host': frontend_private_ip,  # CRITICAL: Use private IP, not DNS
+                'ansible_host': frontend_private_ip,
                 'role': 'frontend',
                 'env_name': env,
-                'ansible_ssh_common_args': f'-o ProxyJump=root@{bastion_ip}'
+                # CRITICAL FIX: Use ProxyCommand instead of ProxyJump for Ansible compatibility
+                'ansible_ssh_proxy_command': f'ssh -W %h:%p -q root@{bastion_ip}',
+                # Additional SSH options for reliability
+                'ansible_ssh_extra_args': '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
             }
             all_hosts[host_key] = host_config
             frontend_hosts[host_key] = host_config
@@ -66,14 +69,16 @@ def main():
             else:
                 production_hosts[host_key] = host_config
         
-        # Backend
+        # Backend - Same fix
         if backend_private_ip and bastion_ip:
             host_key = f"{env}-backend"
             host_config = {
                 'ansible_host': backend_private_ip,
                 'role': 'backend',
                 'env_name': env,
-                'ansible_ssh_common_args': f'-o ProxyJump=root@{bastion_ip}'
+                # CRITICAL FIX: Use ProxyCommand instead of ProxyJump
+                'ansible_ssh_proxy_command': f'ssh -W %h:%p -q root@{bastion_ip}',
+                'ansible_ssh_extra_args': '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
             }
             all_hosts[host_key] = host_config
             backend_hosts[host_key] = host_config
@@ -117,13 +122,14 @@ def main():
         f.write(f"""# 🤖 AUTO-GENERATED INVENTORY - DO NOT EDIT
 # Generated: {datetime.now().isoformat()}
 # Source: terraform_outputs.json
-# SSH Strategy: Uses PRIVATE IPs for frontend/backend (DevSecOps compliant)
+# SSH Strategy: ProxyCommand for reliable Ansible SSH tunneling
+# FIXED: Uses ansible_ssh_proxy_command instead of ProxyJump to avoid port 65535 error
 #
 """)
         yaml.dump(inventory, f, default_flow_style=False, indent=2)
 
     print(f"✅ Inventory generated: {output_path}")
-    print(f"🔑 SSH Strategy: Private IPs used for secure bastion access")
+    print(f"🔧 SSH Strategy: ProxyCommand used for stable Ansible connections")
     
     # Show structure
     print("\n📋 Generated groups:")
@@ -133,11 +139,14 @@ def main():
             print(f"  {group}: {hosts}")
     
     # Show critical IPs being used
-    print(f"\n🔍 SSH Connection IPs:")
+    print(f"\n🔍 SSH Connection Strategy:")
     for host_key, host_config in all_hosts.items():
         ip = host_config['ansible_host']
         role = host_config['role']
-        print(f"  {host_key}: {ip} ({role})")
+        if 'ansible_ssh_proxy_command' in host_config:
+            print(f"  {host_key}: {ip} (via SSH proxy tunnel)")
+        else:
+            print(f"  {host_key}: {ip} (direct connection)")
 
 if __name__ == '__main__':
     main()

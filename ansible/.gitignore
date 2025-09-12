@@ -1,5 +1,5 @@
 .venv
-./inventories/from_terraform.yml
-./ansible.log
-./terraform.tfstate
-./terraform_output.json
+inventories/form_terraform.yml
+ansible.log
+terraform.tfstate
+terraform_output.json
