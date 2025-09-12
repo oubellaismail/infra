@@ -2,17 +2,17 @@
   "production_backend_private_ip": {
     "sensitive": false,
     "type": "string",
-    "value": "10.114.16.5"
+    "value": "10.114.16.3"
   },
   "production_bastion_ip": {
     "sensitive": false,
     "type": "string",
-    "value": "138.68.110.86"
+    "value": "167.71.49.220"
   },
   "production_db_host": {
     "sensitive": false,
     "type": "string",
-    "value": "private-production-db-do-user-16376748-0.h.db.ondigitalocean.com"
+    "value": "private-production-db-do-user-16376748-0.e.db.ondigitalocean.com"
   },
   "production_frontend_hostname": {
     "sensitive": false,
@@ -22,22 +22,27 @@
   "production_frontend_ip": {
     "sensitive": false,
     "type": "string",
-    "value": "164.92.139.136"
+    "value": "46.101.181.66"
   },
-  "staging_backend_private_ip": {
+  "production_frontend_private_ip": {
     "sensitive": false,
     "type": "string",
     "value": "10.114.16.4"
   },
+  "staging_backend_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.114.16.7"
+  },
   "staging_bastion_ip": {
     "sensitive": false,
     "type": "string",
-    "value": "46.101.148.61"
+    "value": "206.81.18.176"
   },
   "staging_db_host": {
     "sensitive": false,
     "type": "string",
-    "value": "private-staging-db-do-user-16376748-0.h.db.ondigitalocean.com"
+    "value": "private-staging-db-do-user-16376748-0.e.db.ondigitalocean.com"
   },
   "staging_frontend_hostname": {
     "sensitive": false,
@@ -47,6 +52,11 @@
   "staging_frontend_ip": {
     "sensitive": false,
     "type": "string",
-    "value": "164.92.188.52"
+    "value": "167.172.163.54"
+  },
+  "staging_frontend_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.114.16.6"
   }
 }

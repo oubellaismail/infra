@@ -1,7 +1,7 @@
 do_token = "dop_v1_917abebd892da00c82683a683771e6da078bcf25fdfd71d6884d431ccb07c3c7"
 ssh_key_ids = ["50286368"]
 
-allowed_admin_cidrs = ["41.141.62.149/32"] # Use your specific CIDR here
+allowed_admin_cidrs = ["160.176.35.234/32"] # Use your specific CIDR here
 
 # Sizes for the droplets (optional, will use defaults if not set)
 bastion_size = "s-1vcpu-1gb"

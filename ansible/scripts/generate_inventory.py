@@ -15,7 +15,7 @@ def load_terraform_outputs(filepath='terraform_outputs.json'):
         sys.exit(1)
 
 def main():
-    """Generate inventory with proper groups."""
+    """Generate inventory with proper groups and private IPs for SSH."""
     tf_outputs = load_terraform_outputs()
     
     # Build hosts
@@ -29,7 +29,7 @@ def main():
 
     for env in ['staging', 'production']:
         bastion_ip = tf_outputs.get(f'{env}_bastion_ip', {}).get('value')
-        frontend_hostname = tf_outputs.get(f'{env}_frontend_hostname', {}).get('value')
+        frontend_private_ip = tf_outputs.get(f'{env}_frontend_private_ip', {}).get('value')
         backend_private_ip = tf_outputs.get(f'{env}_backend_private_ip', {}).get('value')
 
         # Bastion
@@ -48,14 +48,14 @@ def main():
             else:
                 production_hosts[host_key] = host_config
 
-        # Frontend
-        if frontend_hostname:
+        # Frontend - Use PRIVATE IP for SSH through bastion
+        if frontend_private_ip and bastion_ip:
             host_key = f"{env}-frontend"
             host_config = {
-                'ansible_host': frontend_hostname,
+                'ansible_host': frontend_private_ip,  # CRITICAL: Use private IP, not DNS
                 'role': 'frontend',
                 'env_name': env,
-                'ansible_ssh_common_args': f'-o ProxyJump=root@{bastion_ip}'  # Add this!
+                'ansible_ssh_common_args': f'-o ProxyJump=root@{bastion_ip}'
             }
             all_hosts[host_key] = host_config
             frontend_hosts[host_key] = host_config
@@ -117,11 +117,13 @@ def main():
         f.write(f"""# 🤖 AUTO-GENERATED INVENTORY - DO NOT EDIT
 # Generated: {datetime.now().isoformat()}
 # Source: terraform_outputs.json
+# SSH Strategy: Uses PRIVATE IPs for frontend/backend (DevSecOps compliant)
 #
 """)
         yaml.dump(inventory, f, default_flow_style=False, indent=2)
 
     print(f"✅ Inventory generated: {output_path}")
+    print(f"🔑 SSH Strategy: Private IPs used for secure bastion access")
     
     # Show structure
     print("\n📋 Generated groups:")
@@ -129,6 +131,13 @@ def main():
         if group != 'all' and 'hosts' in config:
             hosts = list(config['hosts'].keys())
             print(f"  {group}: {hosts}")
+    
+    # Show critical IPs being used
+    print(f"\n🔍 SSH Connection IPs:")
+    for host_key, host_config in all_hosts.items():
+        ip = host_config['ansible_host']
+        role = host_config['role']
+        print(f"  {host_key}: {ip} ({role})")
 
 if __name__ == '__main__':
     main()

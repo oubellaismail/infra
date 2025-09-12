@@ -17,3 +17,8 @@ output "db_host" {
   value       = digitalocean_database_cluster.db.private_host != "" ? digitalocean_database_cluster.db.private_host : digitalocean_database_cluster.db.host
   description = "DB host (prefers private host)"
 }
+
+output "frontend_private_ip" {
+  value       = digitalocean_droplet.frontend.ipv4_address_private
+  description = "Frontend private IPv4 (VPC)"
+}

@@ -1629,3 +1629,358 @@ Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
     "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
     "unreachable": true
 }
+2025-09-12 20:03:32,073 p=31446 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-12 20:03:32,076 p=31446 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3.10"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-12 20:03:36,294 p=31446 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+Task failed.
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+<<< caused by >>>
+
+Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+
+2025-09-12 20:03:36,295 p=31446 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:03:36,618 p=31446 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:27:57,074 p=31957 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-12 20:27:57,077 p=31957 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-12 20:28:02,187 p=31957 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+Task failed.
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+<<< caused by >>>
+
+Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+
+
+2025-09-12 20:28:02,187 p=31957 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:28:02,712 p=31957 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:29:23,499 p=32020 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-12 20:29:23,502 p=32020 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-12 20:29:28,037 p=32020 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+
+2025-09-12 20:29:28,038 p=32020 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:29:28,244 p=32020 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:30:45,854 p=32078 u=book n=ansible INFO| ansible [core 2.19.2]
+  config file = /Users/book/Developer/delivery-tracker-app/ansible/ansible.cfg
+  configured module search path = ['/Users/book/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /Users/book/Developer/delivery-tracker-app/ansible/.venv/lib/python3.13/site-packages/ansible
+  ansible collection location = /Users/book/Developer/delivery-tracker-app/ansible/collections
+  executable location = /Users/book/Developer/delivery-tracker-app/ansible/.venv/bin/ansible
+  python version = 3.13.7 (main, Aug 14 2025, 11:12:11) [Clang 17.0.0 (clang-1700.0.13.3)] (/Users/book/Developer/delivery-tracker-app/ansible/.venv/bin/python3.13)
+  jinja version = 3.1.6
+  pyyaml version = 6.0.2 (with libyaml v0.2.5)
+2025-09-12 20:30:45,854 p=32078 u=book n=ansible INFO| Using /Users/book/Developer/delivery-tracker-app/ansible/ansible.cfg as config file
+2025-09-12 20:30:45,978 p=32078 u=book n=ansible INFO| advanced_host_list declined parsing /Users/book/Developer/delivery-tracker-app/ansible/inventories/from_terraform.yml as it did not pass its verify_file() method
+2025-09-12 20:30:45,996 p=32078 u=book n=ansible INFO| Parsed /Users/book/Developer/delivery-tracker-app/ansible/inventories/from_terraform.yml inventory source with yaml plugin
+2025-09-12 20:30:46,047 p=32078 u=book n=ansible INFO| Skipping callback 'default', as we already have a stdout callback.
+2025-09-12 20:30:46,047 p=32078 u=book n=ansible INFO| Skipping callback 'oneline', as we already have a stdout callback.
+2025-09-12 20:30:46,140 p=32078 u=book n=ansible INFO| <10.114.16.7> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:30:46,141 p=32078 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:46,153 p=32078 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:30:46,155 p=32078 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:46,166 p=32078 u=book n=ansible INFO| <staging.3assasa.software> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:30:46,167 p=32078 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:46,361 p=32078 u=book n=ansible INFO| <206.81.18.176> (0, b'/root\n', b'')
+2025-09-12 20:30:46,362 p=32078 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:30:46,364 p=32078 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881 `" && echo ansible-tmp-1757705446.361608-32081-72288574916881="` echo /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881 `" ) && sleep 0'"'"''
+2025-09-12 20:30:46,574 p=32078 u=book n=ansible INFO| <206.81.18.176> (0, b'ansible-tmp-1757705446.361608-32081-72288574916881=/root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881\n', b'')
+2025-09-12 20:30:46,744 p=32078 u=book n=ansible INFO| Using module file /Users/book/Developer/delivery-tracker-app/ansible/.venv/lib/python3.13/site-packages/ansible/modules/ping.py
+2025-09-12 20:30:46,746 p=32078 u=book n=ansible INFO| <206.81.18.176> PUT /Users/book/.ansible/tmp/ansible-local-32078xifw5c5a/tmp19vmr2fn TO /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881/AnsiballZ_ping.py
+2025-09-12 20:30:46,747 p=32078 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC sftp -b - -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 '[206.81.18.176]'
+2025-09-12 20:30:46,939 p=32078 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:46,940 p=32078 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 1, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 0 seconds
+2025-09-12 20:30:46,940 p=32078 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:46,949 p=32078 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:46,950 p=32078 u=book n=ansible INFO| <staging.3assasa.software> ssh_retry: attempt: 1, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'staging.3assasa.software', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 0 seconds
+2025-09-12 20:30:46,950 p=32078 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:47,718 p=32078 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:47,719 p=32078 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 2, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 1 seconds
+2025-09-12 20:30:47,742 p=32078 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:47,742 p=32078 u=book n=ansible INFO| <staging.3assasa.software> ssh_retry: attempt: 2, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'staging.3assasa.software', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 1 seconds
+2025-09-12 20:30:47,743 p=32078 u=book n=ansible INFO| <206.81.18.176> (0, b'sftp> put /Users/book/.ansible/tmp/ansible-local-32078xifw5c5a/tmp19vmr2fn /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881/AnsiballZ_ping.py\n', b'')
+2025-09-12 20:30:47,746 p=32078 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:30:47,748 p=32078 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'chmod u+rwx /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881/ /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881/AnsiballZ_ping.py && sleep 0'"'"''
+2025-09-12 20:30:47,935 p=32078 u=book n=ansible INFO| <206.81.18.176> (0, b'', b'')
+2025-09-12 20:30:47,936 p=32078 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:30:47,938 p=32078 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 -tt 206.81.18.176 '/bin/sh -c '"'"'/usr/bin/python3.10 /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881/AnsiballZ_ping.py && sleep 0'"'"''
+2025-09-12 20:30:48,433 p=32078 u=book n=ansible INFO| <206.81.18.176> (0, b'\r\n{"ping": "pong", "invocation": {"module_args": {"data": "pong"}}}\r\n', b'Shared connection to 206.81.18.176 closed.\r\n')
+2025-09-12 20:30:48,438 p=32078 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:30:48,439 p=32078 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'rm -f -r /root/.ansible/tmp/ansible-tmp-1757705446.361608-32081-72288574916881/ > /dev/null 2>&1 && sleep 0'"'"''
+2025-09-12 20:30:48,625 p=32078 u=book n=ansible INFO| <206.81.18.176> (0, b'', b'')
+2025-09-12 20:30:48,637 p=32078 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-12 20:30:48,639 p=32078 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "data": "pong"
+        }
+    },
+    "ping": "pong"
+}
+2025-09-12 20:30:48,721 p=32078 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:48,742 p=32078 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:49,442 p=32078 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:49,443 p=32078 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 3, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 3 seconds
+2025-09-12 20:30:49,505 p=32078 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:49,505 p=32078 u=book n=ansible INFO| <staging.3assasa.software> ssh_retry: attempt: 3, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'staging.3assasa.software', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 3 seconds
+2025-09-12 20:30:52,445 p=32078 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:52,507 p=32078 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:30:53,188 p=32078 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:53,196 p=32078 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+
+2025-09-12 20:30:53,197 p=32078 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:30:53,311 p=32078 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:30:53,319 p=32078 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:34:35,301 p=32183 u=book n=ansible INFO| ansible [core 2.19.2]
+  config file = /Users/book/Developer/delivery-tracker-app/ansible/ansible.cfg
+  configured module search path = ['/Users/book/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /Users/book/Developer/delivery-tracker-app/ansible/.venv/lib/python3.13/site-packages/ansible
+  ansible collection location = /Users/book/Developer/delivery-tracker-app/ansible/collections
+  executable location = /Users/book/Developer/delivery-tracker-app/ansible/.venv/bin/ansible
+  python version = 3.13.7 (main, Aug 14 2025, 11:12:11) [Clang 17.0.0 (clang-1700.0.13.3)] (/Users/book/Developer/delivery-tracker-app/ansible/.venv/bin/python3.13)
+  jinja version = 3.1.6
+  pyyaml version = 6.0.2 (with libyaml v0.2.5)
+2025-09-12 20:34:35,301 p=32183 u=book n=ansible INFO| Using /Users/book/Developer/delivery-tracker-app/ansible/ansible.cfg as config file
+2025-09-12 20:34:35,426 p=32183 u=book n=ansible INFO| advanced_host_list declined parsing /Users/book/Developer/delivery-tracker-app/ansible/inventories/from_terraform.yml as it did not pass its verify_file() method
+2025-09-12 20:34:35,444 p=32183 u=book n=ansible INFO| Parsed /Users/book/Developer/delivery-tracker-app/ansible/inventories/from_terraform.yml inventory source with yaml plugin
+2025-09-12 20:34:35,494 p=32183 u=book n=ansible INFO| Skipping callback 'default', as we already have a stdout callback.
+2025-09-12 20:34:35,494 p=32183 u=book n=ansible INFO| Skipping callback 'oneline', as we already have a stdout callback.
+2025-09-12 20:34:35,581 p=32183 u=book n=ansible INFO| <10.114.16.7> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:34:35,583 p=32183 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:35,594 p=32183 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:34:35,595 p=32183 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:35,605 p=32183 u=book n=ansible INFO| <staging.3assasa.software> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:34:35,607 p=32183 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:35,781 p=32183 u=book n=ansible INFO| <206.81.18.176> (0, b'/root\n', b'')
+2025-09-12 20:34:35,782 p=32183 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:34:35,784 p=32183 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484 `" && echo ansible-tmp-1757705675.7812-32186-127608786666484="` echo /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484 `" ) && sleep 0'"'"''
+2025-09-12 20:34:35,975 p=32183 u=book n=ansible INFO| <206.81.18.176> (0, b'ansible-tmp-1757705675.7812-32186-127608786666484=/root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484\n', b'')
+2025-09-12 20:34:36,149 p=32183 u=book n=ansible INFO| Using module file /Users/book/Developer/delivery-tracker-app/ansible/.venv/lib/python3.13/site-packages/ansible/modules/ping.py
+2025-09-12 20:34:36,151 p=32183 u=book n=ansible INFO| <206.81.18.176> PUT /Users/book/.ansible/tmp/ansible-local-32183vngzm4zt/tmpdfp6cr3_ TO /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484/AnsiballZ_ping.py
+2025-09-12 20:34:36,152 p=32183 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC sftp -b - -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 '[206.81.18.176]'
+2025-09-12 20:34:36,247 p=32183 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:36,248 p=32183 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 1, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 0 seconds
+2025-09-12 20:34:36,248 p=32183 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:36,332 p=32183 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:36,333 p=32183 u=book n=ansible INFO| <staging.3assasa.software> ssh_retry: attempt: 1, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'staging.3assasa.software', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 0 seconds
+2025-09-12 20:34:36,333 p=32183 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:36,947 p=32183 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:36,947 p=32183 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 2, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 1 seconds
+2025-09-12 20:34:37,076 p=32183 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:37,076 p=32183 u=book n=ansible INFO| <staging.3assasa.software> ssh_retry: attempt: 2, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'staging.3assasa.software', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 1 seconds
+2025-09-12 20:34:37,592 p=32183 u=book n=ansible INFO| <206.81.18.176> (0, b'sftp> put /Users/book/.ansible/tmp/ansible-local-32183vngzm4zt/tmpdfp6cr3_ /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484/AnsiballZ_ping.py\n', b'')
+2025-09-12 20:34:37,594 p=32183 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:34:37,596 p=32183 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'chmod u+rwx /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484/ /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484/AnsiballZ_ping.py && sleep 0'"'"''
+2025-09-12 20:34:37,828 p=32183 u=book n=ansible INFO| <206.81.18.176> (0, b'', b'')
+2025-09-12 20:34:37,829 p=32183 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:34:37,831 p=32183 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 -tt 206.81.18.176 '/bin/sh -c '"'"'/usr/bin/python3.10 /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484/AnsiballZ_ping.py && sleep 0'"'"''
+2025-09-12 20:34:37,949 p=32183 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:38,078 p=32183 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:38,349 p=32183 u=book n=ansible INFO| <206.81.18.176> (0, b'\r\n{"ping": "pong", "invocation": {"module_args": {"data": "pong"}}}\r\n', b'Shared connection to 206.81.18.176 closed.\r\n')
+2025-09-12 20:34:38,352 p=32183 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:34:38,353 p=32183 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'rm -f -r /root/.ansible/tmp/ansible-tmp-1757705675.7812-32186-127608786666484/ > /dev/null 2>&1 && sleep 0'"'"''
+2025-09-12 20:34:38,586 p=32183 u=book n=ansible INFO| <206.81.18.176> (0, b'', b'')
+2025-09-12 20:34:38,599 p=32183 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-12 20:34:38,600 p=32183 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "data": "pong"
+        }
+    },
+    "ping": "pong"
+}
+2025-09-12 20:34:38,764 p=32183 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:38,764 p=32183 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 3, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 3 seconds
+2025-09-12 20:34:38,880 p=32183 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:38,881 p=32183 u=book n=ansible INFO| <staging.3assasa.software> ssh_retry: attempt: 3, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'staging.3assasa.software', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 3 seconds
+2025-09-12 20:34:41,766 p=32183 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:41,882 p=32183 u=book n=ansible INFO| <staging.3assasa.software> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 staging.3assasa.software '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:34:42,448 p=32183 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:42,455 p=32183 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+
+2025-09-12 20:34:42,456 p=32183 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:34:42,661 p=32183 u=book n=ansible INFO| <staging.3assasa.software> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:34:42,671 p=32183 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:56:26,172 p=32960 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-12 20:56:26,176 p=32960 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+2025-09-12 20:56:28,547 p=32960 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+
+2025-09-12 20:56:28,548 p=32960 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:56:28,808 p=32960 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:56:46,837 p=33000 u=book n=ansible INFO| ansible [core 2.19.2]
+  config file = /Users/book/Developer/delivery-tracker-app/ansible/ansible.cfg
+  configured module search path = ['/Users/book/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /Users/book/Developer/delivery-tracker-app/ansible/.venv/lib/python3.13/site-packages/ansible
+  ansible collection location = /Users/book/Developer/delivery-tracker-app/ansible/collections
+  executable location = /Users/book/Developer/delivery-tracker-app/ansible/.venv/bin/ansible
+  python version = 3.13.7 (main, Aug 14 2025, 11:12:11) [Clang 17.0.0 (clang-1700.0.13.3)] (/Users/book/Developer/delivery-tracker-app/ansible/.venv/bin/python3.13)
+  jinja version = 3.1.6
+  pyyaml version = 6.0.2 (with libyaml v0.2.5)
+2025-09-12 20:56:46,837 p=33000 u=book n=ansible INFO| Using /Users/book/Developer/delivery-tracker-app/ansible/ansible.cfg as config file
+2025-09-12 20:56:46,959 p=33000 u=book n=ansible INFO| advanced_host_list declined parsing /Users/book/Developer/delivery-tracker-app/ansible/inventories/from_terraform.yml as it did not pass its verify_file() method
+2025-09-12 20:56:46,976 p=33000 u=book n=ansible INFO| Parsed /Users/book/Developer/delivery-tracker-app/ansible/inventories/from_terraform.yml inventory source with yaml plugin
+2025-09-12 20:56:47,023 p=33000 u=book n=ansible INFO| Skipping callback 'default', as we already have a stdout callback.
+2025-09-12 20:56:47,023 p=33000 u=book n=ansible INFO| Skipping callback 'oneline', as we already have a stdout callback.
+2025-09-12 20:56:47,112 p=33000 u=book n=ansible INFO| <10.114.16.7> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:56:47,113 p=33000 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:47,123 p=33000 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:56:47,125 p=33000 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:47,137 p=33000 u=book n=ansible INFO| <10.114.16.6> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:56:47,138 p=33000 u=book n=ansible INFO| <10.114.16.6> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.6 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:47,339 p=33000 u=book n=ansible INFO| <206.81.18.176> (0, b'/root\n', b'')
+2025-09-12 20:56:47,340 p=33000 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:56:47,343 p=33000 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640 `" && echo ansible-tmp-1757707007.339875-33003-151056133378640="` echo /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640 `" ) && sleep 0'"'"''
+2025-09-12 20:56:47,538 p=33000 u=book n=ansible INFO| <206.81.18.176> (0, b'ansible-tmp-1757707007.339875-33003-151056133378640=/root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640\n', b'')
+2025-09-12 20:56:47,711 p=33000 u=book n=ansible INFO| Using module file /Users/book/Developer/delivery-tracker-app/ansible/.venv/lib/python3.13/site-packages/ansible/modules/ping.py
+2025-09-12 20:56:47,713 p=33000 u=book n=ansible INFO| <206.81.18.176> PUT /Users/book/.ansible/tmp/ansible-local-33000lt6wcgdw/tmp_nar038p TO /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640/AnsiballZ_ping.py
+2025-09-12 20:56:47,715 p=33000 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC sftp -b - -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 '[206.81.18.176]'
+2025-09-12 20:56:47,873 p=33000 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:47,874 p=33000 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 1, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 0 seconds
+2025-09-12 20:56:47,875 p=33000 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:47,949 p=33000 u=book n=ansible INFO| <10.114.16.6> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:47,949 p=33000 u=book n=ansible INFO| <10.114.16.6> ssh_retry: attempt: 1, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.6', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 0 seconds
+2025-09-12 20:56:47,950 p=33000 u=book n=ansible INFO| <10.114.16.6> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.6 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:48,590 p=33000 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:48,591 p=33000 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 2, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 1 seconds
+2025-09-12 20:56:48,595 p=33000 u=book n=ansible INFO| <10.114.16.6> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:48,595 p=33000 u=book n=ansible INFO| <10.114.16.6> ssh_retry: attempt: 2, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.6', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 1 seconds
+2025-09-12 20:56:48,757 p=33000 u=book n=ansible INFO| <206.81.18.176> (0, b'sftp> put /Users/book/.ansible/tmp/ansible-local-33000lt6wcgdw/tmp_nar038p /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640/AnsiballZ_ping.py\n', b'')
+2025-09-12 20:56:48,759 p=33000 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:56:48,762 p=33000 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'chmod u+rwx /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640/ /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640/AnsiballZ_ping.py && sleep 0'"'"''
+2025-09-12 20:56:48,949 p=33000 u=book n=ansible INFO| <206.81.18.176> (0, b'', b'')
+2025-09-12 20:56:48,950 p=33000 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:56:48,952 p=33000 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 -tt 206.81.18.176 '/bin/sh -c '"'"'/usr/bin/python3.10 /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640/AnsiballZ_ping.py && sleep 0'"'"''
+2025-09-12 20:56:49,519 p=33000 u=book n=ansible INFO| <206.81.18.176> (0, b'\r\n{"ping": "pong", "invocation": {"module_args": {"data": "pong"}}}\r\n', b'Shared connection to 206.81.18.176 closed.\r\n')
+2025-09-12 20:56:49,523 p=33000 u=book n=ansible INFO| <206.81.18.176> ESTABLISH SSH CONNECTION FOR USER: root
+2025-09-12 20:56:49,525 p=33000 u=book n=ansible INFO| <206.81.18.176> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 206.81.18.176 '/bin/sh -c '"'"'rm -f -r /root/.ansible/tmp/ansible-tmp-1757707007.339875-33003-151056133378640/ > /dev/null 2>&1 && sleep 0'"'"''
+2025-09-12 20:56:49,593 p=33000 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:49,597 p=33000 u=book n=ansible INFO| <10.114.16.6> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.6 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:49,725 p=33000 u=book n=ansible INFO| <206.81.18.176> (0, b'', b'')
+2025-09-12 20:56:49,738 p=33000 u=book n=ansible WARNING| [WARNING]: Bad module compression string specified: True.  Using ZIP_STORED (no compression)
+
+2025-09-12 20:56:49,739 p=33000 u=book n=ansible INFO| staging-bastion | SUCCESS => {
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "data": "pong"
+        }
+    },
+    "ping": "pong"
+}
+2025-09-12 20:56:50,324 p=33000 u=book n=ansible INFO| <10.114.16.6> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:50,324 p=33000 u=book n=ansible INFO| <10.114.16.6> ssh_retry: attempt: 3, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.6', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 3 seconds
+2025-09-12 20:56:50,342 p=33000 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:50,343 p=33000 u=book n=ansible INFO| <10.114.16.7> ssh_retry: attempt: 3, ssh return code is 255. cmd ([b'ssh', b'-A', b'-o', b'ControlMaster=auto', b'-o', b'ControlPersist=600s', b'-o', b'UserKnownHostsFile=/dev/null', b'-o', b'StrictHostKeyChecking=no', b'-o', b'ForwardAgent=yes', b'-o', b'StrictHostKeyChecking=no', b'-o', b'IdentityFile="/Users/book/.ssh/digitalocean"', b'-o', b'KbdInteractiveAuthentication=no', b'-o', b'PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey', b'-o', b'PasswordAuthentication=no', b'-o', b'User="root"', b'-o', b'ConnectTimeout=30', b'-o', b'ProxyJump=root@206.81.18.176', b'-o', b'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"', b'-o', b'NumberOfPasswordPrompts=1', b'10.114.16.7', b"/bin/sh -c 'echo ~root && sleep 0'"]...), pausing for 3 seconds
+2025-09-12 20:56:53,326 p=33000 u=book n=ansible INFO| <10.114.16.6> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.6 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:53,343 p=33000 u=book n=ansible INFO| <10.114.16.7> SSH: EXEC ssh -A -o ControlMaster=auto -o ControlPersist=600s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ForwardAgent=yes -o StrictHostKeyChecking=no -o 'IdentityFile="/Users/book/.ssh/digitalocean"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=30 -o ProxyJump=root@206.81.18.176 -o 'ControlPath="/private/tmp/.ansible-cp/%h-%p-%r"' -o NumberOfPasswordPrompts=1 10.114.16.7 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+2025-09-12 20:56:54,067 p=33000 u=book n=ansible INFO| <10.114.16.6> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:54,073 p=33000 u=book n=ansible ERROR| [ERROR]: Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535
+Origin: <adhoc 'ping' task>
+
+{'action': 'ping', 'args': {}, 'timeout': 0, 'async_val': 0, 'poll': 1}
+
+
+2025-09-12 20:56:54,073 p=33000 u=book n=ansible INFO| staging-frontend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}
+2025-09-12 20:56:54,226 p=33000 u=book n=ansible INFO| <10.114.16.7> (255, b'', b'Connection closed by UNKNOWN port 65535\r\n')
+2025-09-12 20:56:54,234 p=33000 u=book n=ansible INFO| staging-backend | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Task failed: Failed to connect to the host via ssh: Connection closed by UNKNOWN port 65535",
+    "unreachable": true
+}

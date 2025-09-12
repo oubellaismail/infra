@@ -7,6 +7,10 @@ output "staging_frontend_ip" {
   value       = module.staging.frontend_public_ip
   description = "Staging frontend public IPv4"
 }
+output "staging_frontend_private_ip" {
+  value       = module.staging.frontend_private_ip
+  description = "Staging frontend private IPv4"
+}
 output "staging_backend_private_ip" {
   value       = module.staging.backend_private_ip
   description = "Staging backend private IPv4"
@@ -24,6 +28,10 @@ output "production_bastion_ip" {
 output "production_frontend_ip" {
   value       = module.production.frontend_public_ip
   description = "Production frontend public IPv4"
+}
+output "production_frontend_private_ip" {
+  value       = module.production.frontend_private_ip
+  description = "Production frontend private IPv4"
 }
 output "production_backend_private_ip" {
   value       = module.production.backend_private_ip
