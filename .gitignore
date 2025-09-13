@@ -1,0 +1,13 @@
+.env
+.DS_Store
+.idea
+.vscode
+.cursorrules
+.cursor
+.cursorignore
+
+infra/.**
+infra/.terraform
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+infra/terraform.tfvars
