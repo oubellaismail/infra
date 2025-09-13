@@ -1,0 +1,11 @@
+# Python virtual environment
+.venv/
+
+# Ansible generated files
+ansible.log
+retry/
+
+# Terraform state and output files
+terraform.tfstate
+terraform_outputs.json
+inventories/from_terraform.yml

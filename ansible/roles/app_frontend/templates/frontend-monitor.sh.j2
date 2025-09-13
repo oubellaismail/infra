@@ -1,0 +1,8 @@
+#!/bin/bash
+SERVICE_URL="https://{{ domains.frontend }}/health"
+LOG_FILE="/var/log/{{ app.name }}/frontend-monitor.log"
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$SERVICE_URL")
+
+if [ "$HTTP_CODE" -ne 200 ]; then
+    echo "$(date) - ERROR: Frontend health check failed (HTTP $HTTP_CODE)" >> $LOG_FILE
+fi

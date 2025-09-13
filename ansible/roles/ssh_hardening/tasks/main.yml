@@ -1,0 +1,25 @@
+- name: Configure SSH hardening
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+  loop:
+    - { regexp: '^#?PermitRootLogin', line: 'PermitRootLogin {{ ssh_hardening.permit_root_login }}' }
+    - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication {{ ssh_hardening.password_authentication }}' }
+    - { regexp: '^#?PubkeyAuthentication', line: 'PubkeyAuthentication {{ ssh_hardening.pubkey_authentication }}' }
+    - { regexp: '^#?ChallengeResponseAuthentication', line: 'ChallengeResponseAuthentication {{ ssh_hardening.challenge_response_authentication }}' }
+    - { regexp: '^#?UsePAM', line: 'UsePAM {{ ssh_hardening.use_pam }}' }
+    - { regexp: '^#?X11Forwarding', line: 'X11Forwarding {{ ssh_hardening.x11_forwarding }}' }
+    - { regexp: '^#?MaxAuthTries', line: 'MaxAuthTries {{ ssh_hardening.max_auth_tries }}' }
+  notify: restart ssh
+  tags: ['ssh', 'configuration']
+
+- name: Configure allowed users
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?AllowUsers'
+    line: 'AllowUsers {{ ssh_hardening.allow_users | join(" ") }}'
+  when: ssh_hardening.allow_users is defined and ssh_hardening.allow_users | length > 0
+  notify: restart ssh
+  tags: ['ssh', 'users']

@@ -1,0 +1,29 @@
+- name: Install Fail2ban
+  apt:
+    name: fail2ban
+    state: present
+  tags: ['fail2ban', 'packages']
+
+- name: Create Fail2ban jail.local configuration
+  template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    mode: '0644'
+  notify: restart fail2ban
+  tags: ['fail2ban', 'configuration']
+
+- name: Create custom nginx jail (frontend only)
+  template:
+    src: nginx-custom.conf.j2
+    dest: /etc/fail2ban/jail.d/nginx-custom.conf
+    mode: '0644'
+  when: inventory_hostname in groups['frontend']
+  notify: restart fail2ban
+  tags: ['fail2ban', 'nginx']
+
+- name: Enable and start Fail2ban service
+  systemd:
+    name: fail2ban
+    state: started
+    enabled: yes
+  tags: ['fail2ban', 'service']

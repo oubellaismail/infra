@@ -1,0 +1,31 @@
+- name: Create frontend application directory
+  file:
+    path: "/opt/{{ app.name }}/frontend"
+    state: directory
+    owner: "{{ app.name }}"
+    group: "{{ app.name }}"
+    mode: '0755'
+
+- name: Create frontend docker-compose file
+  template:
+    src: docker-compose-frontend.yml.j2
+    dest: "/opt/{{ app.name }}/frontend/docker-compose.yml"
+
+- name: Create nginx configuration for frontend
+  template:
+    src: frontend-nginx.conf.j2
+    dest: "/etc/nginx/sites-available/{{ domains.frontend }}"
+  notify: reload nginx
+
+- name: Enable frontend nginx configuration
+  file:
+    src: "/etc/nginx/sites-available/{{ domains.frontend }}"
+    dest: "/etc/nginx/sites-enabled/{{ domains.frontend }}"
+    state: link
+  notify: reload nginx
+
+- name: Start frontend application
+  community.docker.docker_compose_v2:
+    project_src: "/opt/{{ app.name }}/frontend"
+    state: present
+    pull: yes

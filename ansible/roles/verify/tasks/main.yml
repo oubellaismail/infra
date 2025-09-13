@@ -1,0 +1,139 @@
+# roles/verify/tasks/main.yml - FIXED VERSION
+
+- name: Check system uptime
+  command: uptime
+  register: system_uptime
+  changed_when: false
+  tags: ['verify', 'system']
+
+- name: Display system uptime
+  debug:
+    var: system_uptime.stdout
+  tags: ['verify', 'system']
+
+- name: Gather service facts
+  service_facts:
+  tags: ['verify', 'services']
+
+- name: Check if SSH service exists
+  set_fact:
+    ssh_service_name: "{{ 'ssh.service' if 'ssh.service' in ansible_facts.services else 'sshd.service' }}"
+  tags: ['verify', 'services']
+
+- name: Verify critical services are running
+  assert:
+    that:
+      - "ansible_facts.services[item]['state'] == 'running'"
+    fail_msg: "Service {{ item }} is NOT running"
+    success_msg: "Service {{ item }} is running"
+  loop:
+    - "{{ ssh_service_name }}"
+    - "rsyslog.service"
+  when: item in ansible_facts.services
+  tags: ['verify', 'services']
+
+- name: Verify Docker service (app servers only)
+  assert:
+    that:
+      - "ansible_facts.services['docker.service']['state'] == 'running'"
+    fail_msg: "Docker service is NOT running"
+    success_msg: "Docker service is running"
+  when: 
+    - inventory_hostname in groups['app_servers']
+    - "'docker.service' in ansible_facts.services"
+  tags: ['verify', 'docker']
+
+- name: Verify Nginx service (frontend only)
+  assert:
+    that:
+      - "ansible_facts.services['nginx.service']['state'] == 'running'"
+    fail_msg: "Nginx service is NOT running"
+    success_msg: "Nginx service is running"
+  when: 
+    - inventory_hostname in groups['frontend']
+    - "'nginx.service' in ansible_facts.services"
+  tags: ['verify', 'nginx']
+
+- name: Check application container status
+  community.docker.docker_container_info:
+    name: "{{ app.name }}-{{ role }}"
+  register: container_info
+  when: 
+    - inventory_hostname in groups['app_servers']
+    - role is defined
+  tags: ['verify', 'containers']
+
+- name: Verify container health
+  assert:
+    that:
+      - container_info.exists | default(false)
+      - container_info.container.State.Status == 'running'
+    fail_msg: "Container {{ app.name }}-{{ role }} is not running or doesn't exist"
+    success_msg: "Container {{ app.name }}-{{ role }} is running"
+  when: 
+    - inventory_hostname in groups['app_servers']
+    - container_info is defined
+    - container_info.exists | default(false)
+  tags: ['verify', 'containers']
+
+- name: Test external application endpoint
+  uri:
+    url: "https://{{ domains.frontend }}/health"
+    method: GET
+    status_code: 200
+    timeout: 10
+    validate_certs: false  # Set to true in production with valid certs
+  register: health_check
+  retries: 3
+  delay: 5
+  when: 
+    - inventory_hostname in groups['frontend']
+    - domains.frontend is defined
+  tags: ['verify', 'endpoints']
+
+- name: Check SSL certificate info
+  community.crypto.x509_certificate_info:
+    path: "/etc/letsencrypt/live/{{ domains.frontend }}/fullchain.pem"
+  register: cert_info
+  when: 
+    - inventory_hostname in groups['frontend']
+    - domains.frontend is defined
+  ignore_errors: true
+  tags: ['verify', 'ssl']
+
+- name: Verify SSL certificate validity
+  assert:
+    that:
+      - cert_info.not_after is defined
+      - "(cert_info.not_after | to_datetime('%Y%m%d%H%M%SZ')) > (ansible_date_time.epoch | int + 86400 * 7)"
+    fail_msg: "SSL certificate for {{ domains.frontend }} expires in less than 7 days!"
+    success_msg: "SSL certificate for {{ domains.frontend }} is valid"
+  when: 
+    - inventory_hostname in groups['frontend']
+    - cert_info.not_after is defined
+    - not cert_info.failed | default(false)
+  tags: ['verify', 'ssl']
+
+- name: Check disk space
+  shell: df -h / | awk 'NR==2 {print $5}' | sed 's/%//'
+  register: disk_usage
+  changed_when: false
+  tags: ['verify', 'system']
+
+- name: Verify disk space
+  assert:
+    that:
+      - disk_usage.stdout | int < 90
+    fail_msg: "Disk usage is {{ disk_usage.stdout }}% - critically high!"
+    success_msg: "Disk usage is {{ disk_usage.stdout }}% - acceptable"
+  tags: ['verify', 'system']
+
+- name: Display verification summary
+  debug:
+    msg: |
+      Verification completed for {{ inventory_hostname }}:
+      - Role: {{ role | default('unknown') }}
+      - Environment: {{ env_name | default('unknown') }}
+      - Disk Usage: {{ disk_usage.stdout }}%
+      - System Uptime: {{ system_uptime.stdout }}
+  tags: ['verify', 'summary']

@@ -1,0 +1,62 @@
+{
+  "production_backend_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.19.0.8"
+  },
+  "production_bastion_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "167.71.49.220"
+  },
+  "production_db_host": {
+    "sensitive": false,
+    "type": "string",
+    "value": "private-production-db-do-user-16376748-0.e.db.ondigitalocean.com"
+  },
+  "production_frontend_hostname": {
+    "sensitive": false,
+    "type": "string",
+    "value": "3assasa.software"
+  },
+  "production_frontend_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "46.101.181.66"
+  },
+  "production_frontend_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.19.0.9"
+  },
+  "staging_backend_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.114.16.7"
+  },
+  "staging_bastion_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "206.81.18.176"
+  },
+  "staging_db_host": {
+    "sensitive": false,
+    "type": "string",
+    "value": "private-staging-db-do-user-16376748-0.e.db.ondigitalocean.com"
+  },
+  "staging_frontend_hostname": {
+    "sensitive": false,
+    "type": "string",
+    "value": "staging.3assasa.software"
+  },
+  "staging_frontend_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "167.172.163.54"
+  },
+  "staging_frontend_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.114.16.6"
+  }
+}

@@ -1,0 +1,13 @@
+[nginx-http-auth]
+enabled = true
+filter = nginx-http-auth
+logpath = /var/log/nginx/error.log
+maxretry = 6
+bantime = 600
+
+[nginx-noscript]
+enabled = true
+filter = nginx-noscript
+logpath = /var/log/nginx/access.log
+maxretry = 6
+bantime = 600

@@ -1,0 +1,17 @@
+#!/bin/bash
+LOG_DIR="/var/log/{{ app.name }}"
+ALERT_THRESHOLD=10
+ERROR_COUNT=0
+
+if [ -d "$LOG_DIR" ]; then
+    ERROR_COUNT=$(find $LOG_DIR -name "*.log" -mmin -5 -exec grep -ci "ERROR\|FATAL" {} + | awk '{s+=$1} END {print s}')
+fi
+
+if [ "$ERROR_COUNT" -gt "$ALERT_THRESHOLD" ]; then
+    logger -p local0.alert "High error rate on {{ inventory_hostname }}: $ERROR_COUNT errors in 5 mins."
+{% if monitoring_config.slack_webhook is defined %}
+    curl -X POST -H 'Content-type: application/json' \
+        --data "{\"text\":\"🚨 High error rate on {{ inventory_hostname }}: $ERROR_COUNT errors in the last 5 minutes\"}" \
+        "{{ monitoring_config.slack_webhook }}"
+{% endif %}
+fi

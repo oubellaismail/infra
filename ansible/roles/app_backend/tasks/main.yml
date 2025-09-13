@@ -1,0 +1,62 @@
+# roles/app_backend/tasks/main.yml - FIXED VERSION
+
+- name: Create backend application directories
+  file:
+    path: "/opt/{{ app.name }}/backend"
+    state: directory
+    owner: "{{ app.name }}"
+    group: "{{ app.name }}"
+    mode: '0755'
+
+- name: Create backend environment file
+  template:
+    src: backend.env.j2
+    dest: "/opt/{{ app.name }}/backend/.env"
+    owner: "{{ app.name }}"
+    group: "{{ app.name }}"
+    mode: '0600'
+
+- name: Create backend docker-compose file
+  template:
+    src: docker-compose-backend.yml.j2
+    dest: "/opt/{{ app.name }}/backend/docker-compose.yml"
+    owner: "{{ app.name }}"
+    group: "{{ app.name }}"
+    mode: '0644'
+
+- name: Start backend application
+  community.docker.docker_compose_v2:
+    project_src: "/opt/{{ app.name }}/backend"
+    state: present
+    pull: "always"
+    wait: true
+    wait_timeout: 60
+  tags: ['deploy', 'backend']
+
+- name: Wait for backend to be healthy
+  uri:
+    url: "http://localhost:{{ app.port }}/health"
+    method: GET
+    status_code: 200
+  retries: 10
+  delay: 5
+  when: containers.backend.health_check is defined
+  tags: ['health-check']
+
+- name: Run database migrations
+  command: "/opt/{{ app.name }}/backend/migrate-db.sh"
+  when: run_migrations | default(true)
+  tags: ['migrations', 'database']
+
+- name: Create backend monitoring script
+  template:
+    src: backend-monitor.sh.j2
+    dest: /usr/local/bin/backend-monitor.sh
+    mode: '0755'
+
+- name: Add backend monitoring cron job
+  cron:
+    name: "Backend health monitoring"
+    minute: "*/2"
+    job: "/usr/local/bin/backend-monitor.sh"
+    user: root

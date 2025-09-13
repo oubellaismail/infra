@@ -1,0 +1,7 @@
+- name: Login to DigitalOcean Container Registry
+  docker_login:
+    registry: "{{ registry.url }}"
+    username: "{{ registry_token | default(lookup('env', 'DO_REGISTRY_TOKEN')) }}"
+    password: "{{ registry_token | default(lookup('env', 'DO_REGISTRY_TOKEN')) }}"
+  when: registry_token is defined or lookup('env', 'DO_REGISTRY_TOKEN')
+  tags: ['registry', 'login']
