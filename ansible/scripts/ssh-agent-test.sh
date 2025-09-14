@@ -25,9 +25,9 @@ else
 fi
 
 # Test SSH agent forwarding to staging bastion
-STAGING_BASTION="206.189.54.208"
+STAGING_BASTION="164.92.207.122"
 STAGING_FRONTEND="10.114.16.5"
-STAGING_BACKEND="10.114.16.7"
+STAGING_BACKEND="10.114.16.2"
 
 log "${BLUE}2. Testing Staging Environment${NC}"
 log "Testing SSH agent forwarding to staging bastion..."
@@ -60,8 +60,8 @@ else
 fi
 
 # Test SSH agent forwarding to production bastion
-PRODUCTION_BASTION="134.122.90.116"
-PRODUCTION_FRONTEND="10.114.16.4"
+PRODUCTION_BASTION="209.38.213.110"
+PRODUCTION_FRONTEND="10.114.16.6"
 PRODUCTION_BACKEND="10.114.16.3"
 
 log "${BLUE}3. Testing Production Environment${NC}"
