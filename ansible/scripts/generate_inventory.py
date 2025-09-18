@@ -15,7 +15,7 @@ def load_terraform_outputs(filepath='terraform_outputs.json'):
         sys.exit(1)
 
 def main():
-    """Generate inventory with FIXED SSH Agent Forwarding for Ansible."""
+    """Generate inventory with WORKING SSH Agent Forwarding + ProxyJump."""
     tf_outputs = load_terraform_outputs()
     
     # Build hosts
@@ -37,6 +37,8 @@ def main():
             host_key = f"{env}-bastion"
             host_config = {
                 'ansible_host': bastion_ip,
+                'ansible_user': 'root',
+                'ansible_ssh_private_key_file': '~/.ssh/digitalocean',
                 'role': 'bastion',
                 'env_name': env
             }
@@ -48,19 +50,20 @@ def main():
             else:
                 production_hosts[host_key] = host_config
 
-        # CRITICAL FIX: Add -A flag for SSH agent forwarding in ProxyCommand
-        # This allows the bastion to use your local SSH keys without storing them
-        proxy_command = f'-o ProxyCommand="ssh -A -W %h:%p -q root@{bastion_ip}"'
+        # FINAL FIX: ProxyJump with SSH Agent Forwarding
+        # This is the correct way to handle SSH keys securely through bastion
         
-        # Frontend - FIXED SSH configuration with agent forwarding
+        # Frontend - WORKING SSH configuration
         if frontend_private_ip and bastion_ip:
             host_key = f"{env}-frontend"
             host_config = {
                 'ansible_host': frontend_private_ip,
+                'ansible_user': 'root',
+                'ansible_ssh_private_key_file': '~/.ssh/digitalocean',
+                # FINAL FIX: ProxyJump with SSH Agent Forwarding (-A flag)
+                'ansible_ssh_common_args': f'-A -o ProxyJump=root@{bastion_ip} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ForwardAgent=yes',
                 'role': 'frontend',
-                'env_name': env,
-                # CRITICAL FIX: -A flag OUTSIDE ProxyCommand for SSH agent forwarding
-                'ansible_ssh_common_args': proxy_command
+                'env_name': env
             }
             all_hosts[host_key] = host_config
             frontend_hosts[host_key] = host_config
@@ -71,15 +74,17 @@ def main():
             else:
                 production_hosts[host_key] = host_config
         
-        # Backend - Same fix with agent forwarding
+        # Backend - Same working configuration
         if backend_private_ip and bastion_ip:
             host_key = f"{env}-backend"
             host_config = {
                 'ansible_host': backend_private_ip,
+                'ansible_user': 'root',
+                'ansible_ssh_private_key_file': '~/.ssh/digitalocean',
+                # FINAL FIX: ProxyJump with SSH Agent Forwarding (-A flag)
+                'ansible_ssh_common_args': f'-A -o ProxyJump=root@{bastion_ip} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ForwardAgent=yes',
                 'role': 'backend',
-                'env_name': env,
-                # CRITICAL FIX: Include -A flag for SSH agent forwarding
-                'ansible_ssh_common_args': proxy_command
+                'env_name': env
             }
             all_hosts[host_key] = host_config
             backend_hosts[host_key] = host_config
@@ -123,14 +128,14 @@ def main():
         f.write(f"""# 🤖 AUTO-GENERATED INVENTORY - DO NOT EDIT
 # Generated: {datetime.now().isoformat()}
 # Source: terraform_outputs.json
-# SSH Strategy: SSH Agent Forwarding (-A flag) for DevSecOps security
-# FIXED: Added -A flag to ProxyCommand for proper SSH agent forwarding
+# SSH Strategy: ProxyJump + SSH Agent Forwarding
+# FINAL FIX: Uses SSH agent forwarding so private keys stay on your machine
 #
 """)
         yaml.dump(inventory, f, default_flow_style=False, indent=2)
 
     print(f"✅ Inventory generated: {output_path}")
-    print(f"🔧 SSH Strategy: ProxyCommand with SSH Agent Forwarding (-A flag)")
+    print(f"🔧 SSH Strategy: ProxyJump + SSH Agent Forwarding")
     
     # Show structure
     print("\n📋 Generated groups:")
@@ -140,17 +145,17 @@ def main():
             print(f"  {group}: {hosts}")
     
     # Show critical SSH configuration being used
-    print(f"\n🔍 SSH Agent Forwarding Configuration:")
+    print(f"\n🔍 SSH Configuration:")
     for host_key, host_config in all_hosts.items():
         ip = host_config['ansible_host']
         role = host_config['role']
         if 'ansible_ssh_common_args' in host_config:
-            print(f"  {host_key}: {ip} (via SSH agent forwarding proxy)")
+            print(f"  {host_key}: {ip} (ProxyJump + Agent Forwarding)")
         else:
             print(f"  {host_key}: {ip} (direct connection)")
     
-    print(f"\n🔐 Security: Private keys remain on your machine only!")
-    print(f"   Bastion hosts use SSH agent forwarding to access private servers")
+    print(f"\n🔐 SECURE: SSH Agent Forwarding keeps private keys on your machine")
+    print(f"   Bastion hosts can use your local SSH keys without storing them")
 
 if __name__ == '__main__':
     main()

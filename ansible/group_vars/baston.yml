@@ -1,0 +1,45 @@
+# Bastion host specific variables
+
+# SSH hardening for bastion
+ssh_hardening:
+  permit_root_login: "no"
+  password_authentication: "no"
+  pubkey_authentication: "yes"
+  challenge_response_authentication: "no"
+  use_pam: "yes"
+  x11_forwarding: "no"
+  print_motd: "no"
+  tcp_keep_alive: "yes"
+  client_alive_interval: 300
+  client_alive_count_max: 2
+  max_auth_tries: 3
+  max_sessions: 10
+  login_grace_time: 60
+  allow_users: ["root"]  # Adjust as needed
+  deny_users: []
+
+# Fail2Ban configuration for bastion
+fail2ban:
+  enabled: yes
+  bantime: 3600
+  findtime: 600
+  maxretry: 3
+  jails:
+    - name: sshd
+      enabled: yes
+      port: "{{ security.ssh_port }}"
+      filter: sshd
+      logpath: /var/log/auth.log
+      maxretry: 3
+      bantime: 3600
+
+# Firewall rules specific to bastion
+firewall_rules:
+  - rule: allow
+    port: "{{ security.ssh_port }}"
+    proto: tcp
+    comment: "SSH access"
+  - rule: allow
+    port: 80
+    proto: tcp
+    comment: "HTTP for Let's Encrypt"

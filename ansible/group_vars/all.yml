@@ -1,0 +1,71 @@
+# Global variables for all hosts
+ansible_user: root
+ansible_ssh_private_key_file: ~/.ssh/id_rsa
+ansible_python_interpreter: /usr/bin/python3
+
+# Common packages
+common_packages:
+  - curl
+  - wget
+  - htop
+  - vim
+  - git
+  - unzip
+  - ca-certificates
+  - gnupg
+  - lsb-release
+
+# Security settings
+security:
+  ssh_port: 22
+  disable_root_login: no  # We're using root for simplicity, but could change to sudo user
+  disable_password_auth: yes
+  fail2ban_enabled: yes
+  ufw_enabled: yes
+
+# Docker settings
+docker:
+  version: "latest"
+  users: ["root"]
+  daemon_options:
+    log-driver: "json-file"
+    log-opts:
+      max-size: "10m"
+      max-file: "3"
+
+# Application settings
+app:
+  name: "delivery-tracker"
+  port: 8080
+  frontend_port: 80
+  https_port: 443
+  domain: "3assasa.software"
+
+# Registry settings
+registry:
+  url: "registry.digitalocean.com"
+  namespace: "3assasa"
+
+# SSL/TLS
+ssl:
+  email: "admin@3assasa.software"
+  cert_path: "/etc/ssl/certs"
+  key_path: "/etc/ssl/private"
+
+# Backup settings
+backup:
+  enabled: yes
+  retention_days: 30
+
+# Monitoring
+monitoring:
+  enabled: yes
+  metrics_port: 9090
+
+# Timezone
+timezone: "UTC"
+
+# System limits
+system_limits:
+  soft_nofile: 65536
+  hard_nofile: 65536
