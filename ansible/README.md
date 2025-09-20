@@ -42,7 +42,9 @@ ansible/
 ## Prerequisites
 
 - **Terraform Infrastructure**: Ensure your Terraform configuration is deployed.
-- **SSH Access**: SSH key configured for DigitalOcean droplets.
+- **SSH Access**: SSH key configured for DigitalOcean droplets (defaults to
+  `~/.ssh/digitalocean`, override with `ANSIBLE_SSH_KEY_PATH` or
+  `DO_SSH_KEY_PATH`).
 - **Ansible Installation**:
   ```bash
   pip install ansible ansible-lint

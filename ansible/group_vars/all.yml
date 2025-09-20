@@ -1,6 +1,8 @@
 # Global variables for all hosts
 ansible_user: root
-ansible_ssh_private_key_file: ~/.ssh/id_rsa
+# Prefer the DigitalOcean deployment key and resolve it at runtime so we don't
+# rely on shell expansion of ``~`` in inventories or configs.
+ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/digitalocean"
 ansible_python_interpreter: /usr/bin/python3
 
 # Common packages

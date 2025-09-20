@@ -4,6 +4,7 @@ import yaml
 import sys
 import os
 from datetime import datetime
+from pathlib import Path
 
 def load_terraform_outputs(filepath='terraform_outputs.json'):
     """Load Terraform outputs from JSON file."""
@@ -18,6 +19,13 @@ def main():
     """Generate inventory with WORKING SSH Agent Forwarding + ProxyJump."""
     tf_outputs = load_terraform_outputs()
     
+    key_override = os.environ.get("ANSIBLE_SSH_KEY_PATH") or os.environ.get("DO_SSH_KEY_PATH")
+    key_path = Path(key_override).expanduser() if key_override else Path.home() / ".ssh" / "digitalocean"
+    if not key_path.exists():
+        print(f"❌ Expected SSH key not found at {key_path}.", file=sys.stderr)
+        print("   Ensure your DigitalOcean deployment key is available before running Ansible.", file=sys.stderr)
+        sys.exit(1)
+
     # Build hosts
     all_hosts = {}
     staging_hosts = {}
@@ -38,7 +46,7 @@ def main():
             host_config = {
                 'ansible_host': bastion_ip,
                 'ansible_user': 'root',
-                'ansible_ssh_private_key_file': '~/.ssh/digitalocean',
+                'ansible_ssh_private_key_file': str(key_path),
                 'role': 'bastion',
                 'env_name': env
             }
@@ -56,12 +64,16 @@ def main():
         # Frontend - WORKING SSH configuration
         if frontend_private_ip and bastion_ip:
             host_key = f"{env}-frontend"
+            ssh_common_args = (
+                f"-o ProxyJump=root@{bastion_ip} "
+                "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
+                "-o ForwardAgent=yes -o IdentitiesOnly=yes"
+            )
             host_config = {
                 'ansible_host': frontend_private_ip,
                 'ansible_user': 'root',
-                'ansible_ssh_private_key_file': '~/.ssh/digitalocean',
-                # FINAL FIX: ProxyJump with SSH Agent Forwarding (-A flag)
-                'ansible_ssh_common_args': f'-A -o ProxyJump=root@{bastion_ip} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ForwardAgent=yes',
+                'ansible_ssh_private_key_file': str(key_path),
+                'ansible_ssh_common_args': ssh_common_args,
                 'role': 'frontend',
                 'env_name': env
             }
@@ -77,12 +89,16 @@ def main():
         # Backend - Same working configuration
         if backend_private_ip and bastion_ip:
             host_key = f"{env}-backend"
+            ssh_common_args = (
+                f"-o ProxyJump=root@{bastion_ip} "
+                "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
+                "-o ForwardAgent=yes -o IdentitiesOnly=yes"
+            )
             host_config = {
                 'ansible_host': backend_private_ip,
                 'ansible_user': 'root',
-                'ansible_ssh_private_key_file': '~/.ssh/digitalocean',
-                # FINAL FIX: ProxyJump with SSH Agent Forwarding (-A flag)
-                'ansible_ssh_common_args': f'-A -o ProxyJump=root@{bastion_ip} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ForwardAgent=yes',
+                'ansible_ssh_private_key_file': str(key_path),
+                'ansible_ssh_common_args': ssh_common_args,
                 'role': 'backend',
                 'env_name': env
             }
@@ -136,6 +152,7 @@ def main():
 
     print(f"✅ Inventory generated: {output_path}")
     print(f"🔧 SSH Strategy: ProxyJump + SSH Agent Forwarding")
+    print(f"🔑 Using SSH key: {key_path}")
     
     # Show structure
     print("\n📋 Generated groups:")
