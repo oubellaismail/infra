@@ -24,6 +24,14 @@
     group: "{{ app.name }}"
     mode: '0644'
 
+- name: Install database migration script
+  template:
+    src: migrate-db.sh.j2
+    dest: "/opt/{{ app.name }}/backend/migrate-db.sh"
+    owner: "{{ app.name }}"
+    group: "{{ app.name }}"
+    mode: '0755'
+
 - name: Start backend application
   community.docker.docker_compose_v2:
     project_src: "/opt/{{ app.name }}/backend"
