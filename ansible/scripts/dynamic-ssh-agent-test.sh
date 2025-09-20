@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+SSH_KEY_PATH="${ANSIBLE_SSH_KEY_PATH:-${DO_SSH_KEY_PATH:-$HOME/.ssh/digitalocean}}"
+
 # Fixed Dynamic SSH Agent Test Script - More tolerant and matches working manual commands
 # Usage: ./scripts/dynamic-ssh-agent-test.sh [staging|production|all]
 
@@ -47,18 +49,19 @@ except Exception as e:
 # Test SSH agent setup
 test_ssh_agent() {
     log "${BLUE}🔐 Testing SSH Agent Setup${NC}"
-    
+    log "Using SSH key: $SSH_KEY_PATH"
+
     if ssh-add -l &>/dev/null; then
         log "${GREEN}✅ SSH agent has keys loaded${NC}"
     else
         log "${YELLOW}💡 Loading SSH key...${NC}"
         
-        if [ -f ~/.ssh/digitalocean ]; then
+        if [ -f "$SSH_KEY_PATH" ]; then
             eval "$(ssh-agent -s)" 2>/dev/null || true
-            ssh-add ~/.ssh/digitalocean
+            ssh-add "$SSH_KEY_PATH"
             log "${GREEN}✅ SSH key loaded successfully${NC}"
         else
-            log "${RED}❌ SSH key not found at ~/.ssh/digitalocean${NC}"
+            log "${RED}❌ SSH key not found at $SSH_KEY_PATH${NC}"
             exit 1
         fi
     fi
@@ -82,7 +85,7 @@ test_bastion_connection() {
     
     # Use the exact same command that worked manually
     if ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no \
-       -i ~/.ssh/digitalocean root@$bastion_ip 'echo "Bastion SSH test successful"' 2>/dev/null; then
+       -i "$SSH_KEY_PATH" root@$bastion_ip 'echo "Bastion SSH test successful"' 2>/dev/null; then
         log "${GREEN}✅ SSH to $env bastion works${NC}"
     else
         log "${RED}❌ SSH to $env bastion failed${NC}"
@@ -92,7 +95,7 @@ test_bastion_connection() {
     # Test SSH agent forwarding 
     log "Testing SSH agent forwarding..."
     if ssh -A -o ConnectTimeout=10 -o StrictHostKeyChecking=no \
-       -i ~/.ssh/digitalocean root@$bastion_ip 'ssh-add -l >/dev/null 2>&1 && echo "Agent forwarding works"' 2>/dev/null; then
+       -i "$SSH_KEY_PATH" root@$bastion_ip 'ssh-add -l >/dev/null 2>&1 && echo "Agent forwarding works"' 2>/dev/null; then
         log "${GREEN}✅ SSH agent forwarding to $env bastion works${NC}"
     else
         log "${YELLOW}⚠️  SSH agent forwarding may have issues (but basic SSH works)${NC}"
@@ -120,7 +123,7 @@ auto_fix_ssh_forwarding() {
     
     # Connect through bastion to private servers (like the working manual method)
     if ssh -A -o ConnectTimeout=10 -o StrictHostKeyChecking=no \
-        -i ~/.ssh/digitalocean root@$bastion_ip << EOF
+        -i "$SSH_KEY_PATH" root@$bastion_ip << EOF
 # Test connection to frontend
 if ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no root@$frontend_ip 'echo "Frontend connection successful"' 2>/dev/null; then
     echo "✅ Frontend connection works"
