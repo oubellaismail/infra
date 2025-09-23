@@ -1,5 +1,5 @@
 - name: Bootstrap Infrastructure - Initial Server Setup
-  hosts: all
+  hosts: all,!ungrouped
   gather_facts: true
   serial: "{{ ansible_serial | default(1) }}"
   vars:

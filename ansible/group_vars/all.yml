@@ -71,3 +71,27 @@ timezone: "UTC"
 system_limits:
   soft_nofile: 65536
   hard_nofile: 65536
+
+ssh_hardening:
+  permit_root_login: "no"
+  password_authentication: "no"
+  pubkey_authentication: "yes"
+  challenge_response_authentication: "no"
+  use_pam: "yes"
+  x11_forwarding: "no"
+  max_auth_tries: 3
+  allow_users: ["root"]
+
+  fail2ban:
+  enabled: yes
+  bantime: 3600
+  findtime: 600
+  maxretry: 3
+  jails:
+    - name: sshd
+      enabled: yes
+      port: "22"
+      filter: sshd
+      logpath: /var/log/auth.log
+      maxretry: 3
+      bantime: 3600

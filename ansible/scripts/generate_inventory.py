@@ -1,10 +1,25 @@
 #!/usr/bin/env python3
+import argparse
 import json
-import yaml
-import sys
-import os
 from datetime import datetime
 from pathlib import Path
+import os
+import yaml
+
+HEADER = """# 🤖 AUTO-GENERATED INVENTORY - DO NOT EDIT
+# Generated: {ts}
+# Source: {src}
+# SSH Strategy: ProxyJump + SSH Agent Forwarding
+# FINAL FIX: Uses SSH agent forwarding so private keys stay on your machine
+#
+"""
+
+def parse_args():
+    p = argparse.ArgumentParser(description="Generate Ansible inventory from terraform outputs.")
+    p.add_argument("--outputs", default="terraform_outputs.json", help="Path to terraform outputs JSON")
+    p.add_argument("--inventory", default="inventories/from_terraform.yml", help="Path to write inventory YAML")
+    p.add_argument("--ssh-key", default="~/.ssh/digitalocean", help="Default SSH key path")
+    return p.parse_args()
 
 def load_terraform_outputs(filepath='terraform_outputs.json'):
     """Load Terraform outputs from JSON file."""
@@ -12,19 +27,20 @@ def load_terraform_outputs(filepath='terraform_outputs.json'):
         with open(filepath, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"❌ {filepath} not found. Run 'make inventory' first.", file=sys.stderr)
-        sys.exit(1)
+        print(f"❌ {filepath} not found. Run 'make inventory' first.")
+        exit(1)
 
 def main():
     """Generate inventory with WORKING SSH Agent Forwarding + ProxyJump."""
-    tf_outputs = load_terraform_outputs()
+    args = parse_args()
+    tf_outputs = load_terraform_outputs(args.outputs)
     
     key_override = os.environ.get("ANSIBLE_SSH_KEY_PATH") or os.environ.get("DO_SSH_KEY_PATH")
-    key_path = Path(key_override).expanduser() if key_override else Path.home() / ".ssh" / "digitalocean"
+    key_path = Path(key_override).expanduser() if key_override else Path(args.ssh_key).expanduser()
     if not key_path.exists():
-        print(f"❌ Expected SSH key not found at {key_path}.", file=sys.stderr)
-        print("   Ensure your DigitalOcean deployment key is available before running Ansible.", file=sys.stderr)
-        sys.exit(1)
+        print(f"❌ Expected SSH key not found at {key_path}.")
+        print("   Ensure your DigitalOcean deployment key is available before running Ansible.")
+        exit(1)
 
     # Build hosts
     all_hosts = {}
@@ -36,6 +52,7 @@ def main():
     app_server_hosts = {}
 
     for env in ['staging', 'production']:
+        # Extract IPs using the same method as the old script
         bastion_ip = tf_outputs.get(f'{env}_bastion_ip', {}).get('value')
         frontend_private_ip = tf_outputs.get(f'{env}_frontend_private_ip', {}).get('value')
         backend_private_ip = tf_outputs.get(f'{env}_backend_private_ip', {}).get('value')
@@ -58,10 +75,7 @@ def main():
             else:
                 production_hosts[host_key] = host_config
 
-        # FINAL FIX: ProxyJump with SSH Agent Forwarding
-        # This is the correct way to handle SSH keys securely through bastion
-        
-        # Frontend - WORKING SSH configuration
+        # Frontend - ProxyJump configuration (same as old script)
         if frontend_private_ip and bastion_ip:
             host_key = f"{env}-frontend"
             ssh_common_args = (
@@ -86,7 +100,7 @@ def main():
             else:
                 production_hosts[host_key] = host_config
         
-        # Backend - Same working configuration
+        # Backend - Same working configuration as old script
         if backend_private_ip and bastion_ip:
             host_key = f"{env}-backend"
             ssh_common_args = (
@@ -111,7 +125,7 @@ def main():
             else:
                 production_hosts[host_key] = host_config
 
-    # Create structured inventory
+    # Create structured inventory (same as old script)
     inventory = {
         'all': {
             'hosts': all_hosts
@@ -137,20 +151,17 @@ def main():
     }
 
     # Write inventory
-    output_path = 'inventories/from_terraform.yml'
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    inventory_path = Path(args.inventory)
+    inventory_path.parent.mkdir(parents=True, exist_ok=True)
     
-    with open(output_path, 'w') as f:
-        f.write(f"""# 🤖 AUTO-GENERATED INVENTORY - DO NOT EDIT
-# Generated: {datetime.now().isoformat()}
-# Source: terraform_outputs.json
-# SSH Strategy: ProxyJump + SSH Agent Forwarding
-# FINAL FIX: Uses SSH agent forwarding so private keys stay on your machine
-#
-""")
+    ts = datetime.now().isoformat()
+    header = HEADER.format(ts=ts, src=args.outputs)
+    
+    with open(inventory_path, 'w') as f:
+        f.write(header)
         yaml.dump(inventory, f, default_flow_style=False, indent=2)
 
-    print(f"✅ Inventory generated: {output_path}")
+    print(f"✅ Inventory generated: {inventory_path}")
     print(f"🔧 SSH Strategy: ProxyJump + SSH Agent Forwarding")
     print(f"🔑 Using SSH key: {key_path}")
     
