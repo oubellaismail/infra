@@ -25,7 +25,7 @@
 - name: Allow SSH
   ufw:
     rule: allow
-    port: "{{ security.ssh_port }}"
+    port: "{{ security.ssh_port | default(22) }}"
     proto: tcp
 
 - name: Allow HTTP (frontend only)

@@ -1,17 +1,17 @@
 - name: Configure SSH hardening
   lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: "{{ item.regexp }}"
+    regexp: "{{ item.regexp | default('') }}"
     line: "{{ item.line }}"
     backup: yes
   loop:
-    - { regexp: '^#?PermitRootLogin', line: 'PermitRootLogin {{ ssh_hardening.permit_root_login }}' }
-    - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication {{ ssh_hardening.password_authentication }}' }
-    - { regexp: '^#?PubkeyAuthentication', line: 'PubkeyAuthentication {{ ssh_hardening.pubkey_authentication }}' }
-    - { regexp: '^#?ChallengeResponseAuthentication', line: 'ChallengeResponseAuthentication {{ ssh_hardening.challenge_response_authentication }}' }
-    - { regexp: '^#?UsePAM', line: 'UsePAM {{ ssh_hardening.use_pam }}' }
-    - { regexp: '^#?X11Forwarding', line: 'X11Forwarding {{ ssh_hardening.x11_forwarding }}' }
-    - { regexp: '^#?MaxAuthTries', line: 'MaxAuthTries {{ ssh_hardening.max_auth_tries }}' }
+    - { regexp: '^#?PermitRootLogin', line: 'PermitRootLogin {{ ssh_hardening.permit_root_login | default("no") }}' }
+    - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication {{ ssh_hardening.password_authentication | default("no") }}' }
+    - { regexp: '^#?PubkeyAuthentication', line: 'PubkeyAuthentication {{ ssh_hardening.pubkey_authentication | default("yes") }}' }
+    - { regexp: '^#?ChallengeResponseAuthentication', line: 'ChallengeResponseAuthentication {{ ssh_hardening.challenge_response_authentication | default("no") }}' }
+    - { regexp: '^#?UsePAM', line: 'UsePAM {{ ssh_hardening.use_pam | default("yes") }}' }
+    - { regexp: '^#?X11Forwarding', line: 'X11Forwarding {{ ssh_hardening.x11_forwarding | default("no") }}' }
+    - { regexp: '^#?MaxAuthTries', line: 'MaxAuthTries {{ ssh_hardening.max_auth_tries | default(3) }}' }
   notify: restart ssh
   tags: ['ssh', 'configuration']
 
@@ -19,7 +19,7 @@
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?AllowUsers'
-    line: 'AllowUsers {{ ssh_hardening.allow_users | join(" ") }}'
+    line: 'AllowUsers {{ ssh_hardening.allow_users | default("[root]") | join(" ") }}'
   when: ssh_hardening.allow_users is defined and ssh_hardening.allow_users | length > 0
   notify: restart ssh
   tags: ['ssh', 'users']

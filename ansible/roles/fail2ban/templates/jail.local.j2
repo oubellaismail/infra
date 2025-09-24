@@ -1,11 +1,11 @@
 [DEFAULT]
-bantime = {{ fail2ban.bantime }}
-findtime = {{ fail2ban.findtime }}
-maxretry = {{ fail2ban.maxretry }}
-destemail = {{ ssl.email }}
-sender = fail2ban@{{ app.domain }}
+bantime = {{ fail2ban.bantime | default(3600) }}
+findtime = {{ fail2ban.findtime | default(600) }}
+maxretry = {{ fail2ban.maxretry | default(3) }}
+destemail = {{ ssl.email | default("admin@3assasa.software") }}
+sender = fail2ban@{{ app.domain | default("3assasa.software") }}
 action = %(action_mwl)s
 
 [sshd]
 enabled = true
-port = {{ security.ssh_port }}
+port = {{ security.ssh_port | default(22) }}

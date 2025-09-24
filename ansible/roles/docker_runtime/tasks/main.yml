@@ -31,10 +31,10 @@
 
 - name: Add users to docker group
   user:
-    name: "{{ item }}"
+    name: "{{ item | default('root') }}"
     groups: docker
     append: yes
-  loop: "{{ docker.users }}"
+  loop: "{{ docker.users | default(['root']) if docker is defined else ['root'] }}"
 
 - name: Configure Docker daemon
   template:

@@ -82,7 +82,7 @@ ssh_hardening:
   max_auth_tries: 3
   allow_users: ["root"]
 
-  fail2ban:
+fail2ban:
   enabled: yes
   bantime: 3600
   findtime: 600

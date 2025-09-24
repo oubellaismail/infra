@@ -13,7 +13,7 @@
 
 - name: Install common packages
   ansible.builtin.apt:
-    name: "{{ common_packages }}"
+    name: "{{ common_packages | default(['curl', 'wget', 'htop', 'vim', 'git', 'unzip', 'ca-certificates', 'gnupg', 'lsb-release']) }}"
     state: present
     update_cache: yes
   tags: ['packages']
@@ -21,7 +21,7 @@
 
 - name: Set timezone
   timezone:
-    name: "{{ timezone }}"
+    name: "{{ timezone | default('UTC') }}"
   tags: ['system']
 
 - name: Configure system limits
@@ -31,23 +31,23 @@
     limit_item: nofile
     value: "{{ item.value }}"
   loop:
-    - { type: 'soft', value: "{{ system_limits.soft_nofile }}" }
-    - { type: 'hard', value: "{{ system_limits.hard_nofile }}" }
+    - { type: 'soft', value: "{{ system_limits.soft_nofile | default(65536) }}" }
+    - { type: 'hard', value: "{{ system_limits.hard_nofile | default(65536) }}" }
   tags: ['system', 'limits']
 
 - name: Create application user
   user:
-    name: "{{ app.name }}"
+    name: "{{ app.name | default('delivery-tracker') }}"
     system: yes
     shell: /bin/bash
-    home: "/opt/{{ app.name }}"
+    home: "/opt/{{ app.name | default('delivery-tracker')}}"
     create_home: yes
   tags: ['users']
 
 - name: Configure logrotate for application logs
   template:
     src: logrotate.j2
-    dest: "/etc/logrotate.d/{{ app.name }}"
+    dest: "/etc/logrotate.d/{{ app.name | default('delivery-tracker')}}"
     mode: '0644'
   tags: ['logging']
 

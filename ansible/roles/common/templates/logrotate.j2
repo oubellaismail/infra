@@ -1,11 +1,11 @@
-/var/log/{{ app.name }}/*.log {
+/var/log/{{ app.name | default('delivery-tracker') }}/*.log {
     daily
     missingok
     rotate 30
     compress
     delaycompress
     notifempty
-    create 0644 {{ app.name }} {{ app.name }}
+    create 0644 {{ app.name | default('delivery-tracker') }} {{ app.name | default('delivery-tracker') }}
     postrotate
         systemctl reload rsyslog > /dev/null 2>&1 || true
     endscript
