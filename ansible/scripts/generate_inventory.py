@@ -62,7 +62,7 @@ def main():
             host_key = f"{env}-bastion"
             host_config = {
                 'ansible_host': bastion_ip,
-                'ansible_user': 'root',
+                'ansible_user': 'ansible',
                 'ansible_ssh_private_key_file': str(key_path),
                 'role': 'bastion',
                 'env_name': env

@@ -1,0 +1,105 @@
+# roles/ansible_user/tasks/main.yml - FIXED VERSION
+---
+- name: Create Ansible service user
+  user:
+    name: "{{ ansible_service_user | default('ansible') }}"
+    comment: "Ansible automation user"
+    shell: "{{ ansible_service_user_shell | default('/bin/bash') }}"
+    home: "/home/{{ ansible_service_user | default('ansible') }}"
+    create_home: "{{ ansible_service_user_create_home | default(true) }}"
+    groups: "{{ ansible_service_user_groups | default(['sudo']) }}"
+    append: yes
+    generate_ssh_key: no
+    state: present
+  tags: ['ansible_user', 'users']
+
+- name: Create .ssh directory for Ansible user
+  file:
+    path: "/home/{{ ansible_service_user | default('ansible') }}/.ssh"
+    state: directory
+    owner: "{{ ansible_service_user | default('ansible') }}"
+    group: "{{ ansible_service_user | default('ansible') }}"
+    mode: '0700'
+  tags: ['ansible_user', 'ssh']
+
+- name: Copy authorized_keys from root to Ansible user
+  copy:
+    src: /root/.ssh/authorized_keys
+    dest: "/home/{{ ansible_service_user | default('ansible') }}/.ssh/authorized_keys"
+    owner: "{{ ansible_service_user | default('ansible') }}"
+    group: "{{ ansible_service_user | default('ansible') }}"
+    mode: '0600'
+    remote_src: yes
+  when: ansible_user == "root"  # Only do this during transition
+  tags: ['ansible_user', 'ssh']
+
+- name: Configure passwordless sudo for Ansible user
+  lineinfile:
+    path: /etc/sudoers.d/ansible-user
+    line: "{{ ansible_service_user | default('ansible') }} ALL=(ALL) NOPASSWD:ALL"
+    create: yes
+    mode: '0440'
+    validate: 'visudo -cf %s'
+  tags: ['ansible_user', 'sudo']
+
+- name: Add Ansible user to docker group (if docker is installed)
+  user:
+    name: "{{ ansible_service_user | default('ansible') }}"
+    groups: docker
+    append: yes
+  when: 
+    - "'docker' in ansible_service_user_groups | default([])"
+    - ansible_facts.services['docker.service'] is defined
+  ignore_errors: true  # Docker might not be installed yet
+  tags: ['ansible_user', 'docker']
+
+# FIXED: Check if application user exists before trying to use it
+- name: Check if application user exists
+  getent:
+    database: passwd
+    key: "{{ app.name | default('delivery-tracker') }}"
+  register: app_user_check
+  failed_when: false
+  tags: ['ansible_user', 'permissions']
+
+- name: Create application user if it doesn't exist
+  user:
+    name: "{{ app.name | default('delivery-tracker') }}"
+    system: yes
+    shell: /bin/bash
+    home: "/opt/{{ app.name | default('delivery-tracker') }}"
+    create_home: yes
+  when: app_user_check.msg is defined and "not found" in app_user_check.msg
+  tags: ['ansible_user', 'permissions']
+
+- name: Ensure application directory exists
+  file:
+    path: "/opt/{{ app.name | default('delivery-tracker') }}"
+    state: directory
+    mode: '0755'
+  tags: ['ansible_user', 'permissions']
+
+- name: Set application directory ownership (only if app user exists)
+  file:
+    path: "/opt/{{ app.name | default('delivery-tracker') }}"
+    owner: "{{ app.name | default('delivery-tracker') }}"
+    group: "{{ app.name | default('delivery-tracker') }}"
+    mode: '0755'
+  when: app_user_check.entries is defined
+  tags: ['ansible_user', 'permissions']
+
+- name: Add Ansible user to application group (only if group exists)
+  user:
+    name: "{{ ansible_service_user | default('ansible') }}"
+    groups: "{{ app.name | default('delivery-tracker') }}"
+    append: yes
+  when: app_user_check.entries is defined
+  tags: ['ansible_user', 'permissions']
+
+
+# Additional safety check for SSH connectivity
+- name: Test that Ansible user can be used for connection
+  ping:
+  become: true
+  become_user: "{{ ansible_service_user | default('ansible') }}"
+  tags: ['ansible_user', 'test']

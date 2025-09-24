@@ -15,7 +15,7 @@ ssh_hardening:
   max_auth_tries: 3
   max_sessions: 10
   login_grace_time: 60
-  allow_users: ["root"]  # Adjust as needed
+  allow_users: ["ansible"]  # Adjust as needed
   deny_users: []
 
 # Fail2Ban configuration for bastion
@@ -43,3 +43,6 @@ firewall_rules:
     port: 80
     proto: tcp
     comment: "HTTP for Let's Encrypt"
+
+
+bastion_permit_root_login: "no"

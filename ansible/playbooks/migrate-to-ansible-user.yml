@@ -1,0 +1,35 @@
+- name: Migrate from root to Ansible service user
+  hosts: all
+  gather_facts: true
+  vars:
+    ansible_user: root  # Start as root for migration
+  
+  pre_tasks:
+    - name: Wait for system to be ready
+      wait_for_connection:
+        connect_timeout: 20
+        sleep: 5
+        delay: 5
+        timeout: 300
+
+  roles:
+    - role: ansible_user
+      tags: ['migration', 'ansible_user']
+
+  post_tasks:
+    - name: Test Ansible user connectivity
+      ping:
+      become: true
+      become_user: "{{ ansible_service_user | default('ansible') }}"
+      tags: ['test', 'connectivity']
+
+    - name: Display migration success message
+      debug:
+        msg: |
+          ✅ Migration completed successfully!
+          
+          Next steps:
+          1. Update your inventory to use: ansible_user: ansible
+          2. Re-run bootstrap with new user: make bootstrap ENV={{ env_name }}
+          3. Test connectivity: ansible {{ env_name }} -m ping
+      tags: ['migration', 'summary']

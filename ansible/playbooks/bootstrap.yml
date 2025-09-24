@@ -13,14 +13,27 @@
         delay: 5
         timeout: 300
 
+    - name: Detect if we're running as root (first-time setup)
+      set_fact:
+        is_initial_setup: "{{ ansible_user == 'root' }}"
+      tags: ['always']
+
   roles:
+    # Create Ansible user FIRST (only during initial setup)
+    - role: ansible_user
+      tags: ['ansible_user', 'bootstrap']
+      when: is_initial_setup | default(false)
+
     - role: common
       tags: ['common', 'bootstrap']
+    
     - role: ssh_hardening
       tags: ['ssh', 'security', 'bootstrap']
-      when: inventory_hostname in groups['bastion']
+      # Apply SSH hardening to all hosts, but with different configs
+    
     - role: firewall
       tags: ['firewall', 'security', 'bootstrap']
+    
     - role: fail2ban
       tags: ['fail2ban', 'security', 'bootstrap']
       when: inventory_hostname in groups['bastion']

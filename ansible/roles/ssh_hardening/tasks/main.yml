@@ -1,3 +1,11 @@
+- name: Backup current SSH configuration
+  copy:
+    src: /etc/ssh/sshd_config
+    dest: "/etc/ssh/sshd_config.backup.{{ ansible_date_time.epoch }}"
+    remote_src: yes
+    mode: '0600'
+  tags: ['ssh', 'backup']
+
 - name: Configure SSH hardening
   lineinfile:
     path: /etc/ssh/sshd_config
@@ -5,21 +13,84 @@
     line: "{{ item.line }}"
     backup: yes
   loop:
-    - { regexp: '^#?PermitRootLogin', line: 'PermitRootLogin {{ ssh_hardening.permit_root_login | default("no") }}' }
-    - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication {{ ssh_hardening.password_authentication | default("no") }}' }
-    - { regexp: '^#?PubkeyAuthentication', line: 'PubkeyAuthentication {{ ssh_hardening.pubkey_authentication | default("yes") }}' }
-    - { regexp: '^#?ChallengeResponseAuthentication', line: 'ChallengeResponseAuthentication {{ ssh_hardening.challenge_response_authentication | default("no") }}' }
-    - { regexp: '^#?UsePAM', line: 'UsePAM {{ ssh_hardening.use_pam | default("yes") }}' }
-    - { regexp: '^#?X11Forwarding', line: 'X11Forwarding {{ ssh_hardening.x11_forwarding | default("no") }}' }
-    - { regexp: '^#?MaxAuthTries', line: 'MaxAuthTries {{ ssh_hardening.max_auth_tries | default(3) }}' }
-  notify: restart ssh
+    - { 
+        regexp: '^#?PermitRootLogin', 
+        line: 'PermitRootLogin {{ ssh_hardening.permit_root_login | default("no") }}' 
+      }
+    - { 
+        regexp: '^#?PasswordAuthentication', 
+        line: 'PasswordAuthentication {{ ssh_hardening.password_authentication | default("no") }}' 
+      }
+    - { 
+        regexp: '^#?PubkeyAuthentication', 
+        line: 'PubkeyAuthentication {{ ssh_hardening.pubkey_authentication | default("yes") }}' 
+      }
+    - { 
+        regexp: '^#?ChallengeResponseAuthentication', 
+        line: 'ChallengeResponseAuthentication {{ ssh_hardening.challenge_response_authentication | default("no") }}' 
+      }
+    - { 
+        regexp: '^#?UsePAM', 
+        line: 'UsePAM {{ ssh_hardening.use_pam | default("yes") }}' 
+      }
+    - { 
+        regexp: '^#?X11Forwarding', 
+        line: 'X11Forwarding {{ ssh_hardening.x11_forwarding | default("no") }}' 
+      }
+    - { 
+        regexp: '^#?MaxAuthTries', 
+        line: 'MaxAuthTries {{ ssh_hardening.max_auth_tries | default(3) }}' 
+      }
+    - { 
+        regexp: '^#?ClientAliveInterval', 
+        line: 'ClientAliveInterval {{ ssh_hardening.client_alive_interval | default(300) }}' 
+      }
+    - { 
+        regexp: '^#?ClientAliveCountMax', 
+        line: 'ClientAliveCountMax {{ ssh_hardening.client_alive_count_max | default(2) }}' 
+      }
   tags: ['ssh', 'configuration']
 
 - name: Configure allowed users
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?AllowUsers'
-    line: 'AllowUsers {{ ssh_hardening.allow_users | default("[root]") | join(" ") }}'
-  when: ssh_hardening.allow_users is defined and ssh_hardening.allow_users | length > 0
-  notify: restart ssh
+    line: 'AllowUsers {{ ssh_hardening.allow_users | default(["ansible"]) | join(" ") }}'
+  when: 
+    - ssh_hardening.allow_users is defined 
+    - ssh_hardening.allow_users | length > 0
   tags: ['ssh', 'users']
+
+- name: Configure denied users
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?DenyUsers'
+    line: 'DenyUsers {{ ssh_hardening.deny_users | join(" ") }}'
+  when: 
+    - ssh_hardening.deny_users is defined 
+    - ssh_hardening.deny_users | length > 0
+  tags: ['ssh', 'users']
+
+- name: Validate SSH configuration
+  command: sshd -t
+  changed_when: false
+  tags: ['ssh', 'validation']
+
+- name: Test SSH connectivity before restart
+  wait_for:
+    port: "{{ security.ssh_port | default(22) }}"
+    host: "{{ ansible_default_ipv4.address }}"
+    timeout: 10
+  tags: ['ssh', 'connectivity']
+
+- name: Restart SSH service
+  systemd:
+    name: ssh
+    state: restarted
+  tags: ['ssh', 'restart']
+
+- name: Verify SSH is running after restart
+  systemd:
+    name: ssh
+    state: started
+  tags: ['ssh', 'verification']

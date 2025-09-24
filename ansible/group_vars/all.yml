@@ -1,5 +1,8 @@
 # Global variables for all hosts
-ansible_user: root
+ansible_service_user: "ansible"
+ansible_service_user_shell: "/bin/bash"
+ansible_service_user_groups: ["sudo", "docker"]
+ansible_service_user_create_home: true
 # Prefer the DigitalOcean deployment key and resolve it at runtime so we don't
 # rely on shell expansion of ``~`` in inventories or configs.
 ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/digitalocean"
@@ -20,10 +23,10 @@ common_packages:
 # Security settings
 security:
   ssh_port: 22
-  disable_root_login: no  # We're using root for simplicity, but could change to sudo user
-  disable_password_auth: yes
-  fail2ban_enabled: yes
-  ufw_enabled: yes
+  disable_root_login: true  # We're using root for simplicity, but could change to sudo user
+  disable_password_auth: true
+  fail2ban_enabled: true
+  ufw_enabled: true
 
 # Docker settings
 docker:
@@ -80,7 +83,9 @@ ssh_hardening:
   use_pam: "yes"
   x11_forwarding: "no"
   max_auth_tries: 3
-  allow_users: ["root"]
+  allow_users: ["ansible"]
+  client_alive_interval: 300
+  client_alive_count_max: 2
 
 fail2ban:
   enabled: yes
