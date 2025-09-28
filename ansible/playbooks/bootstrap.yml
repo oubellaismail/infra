@@ -1,6 +1,7 @@
 - name: Bootstrap Infrastructure - Initial Server Setup
   hosts: all,!ungrouped
   gather_facts: true
+  become: true
   serial: "{{ ansible_serial | default(1) }}"
   vars:
     ansible_ssh_retries: 3
@@ -42,6 +43,7 @@
   hosts: app_servers
   gather_facts: false
   serial: "{{ ansible_serial | default(1) }}"
+  become: true
 
   roles:
     - role: docker_runtime

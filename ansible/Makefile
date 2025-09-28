@@ -68,12 +68,14 @@ bootstrap:
 	@if grep -q "ansible_user: root" $(INVENTORY) 2>/dev/null || [ ! -f $(INVENTORY) ]; then \
 		echo "🔄 Running initial bootstrap as root..."; \
 		$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/bootstrap.yml \
-		  -l $(ENV) \
-		  --vault-password-file $(VAULT_PASS) \
-		  -u root \
-		  $(if $(TAGS),--tags $(TAGS)) \
-		  $(if $(LIMIT),--limit $(LIMIT)) \
-		  $(VERBOSE); \
+                  -l $(ENV) \
+                  --vault-password-file $(VAULT_PASS) \
+                  -u root \
+                  -e ansible_user=root \
+                  -e ansible_ssh_user=root \
+                  $(if $(TAGS),--tags $(TAGS)) \
+                  $(if $(LIMIT),--limit $(LIMIT)) \
+                  $(VERBOSE); \
 	else \
 		echo "🔄 Running bootstrap as ansible user..."; \
 		$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/bootstrap.yml \
@@ -122,8 +124,10 @@ migrate-to-ansible-user:
 	$(call assert_env)
 	@echo "🔄 Migrating $(ENV) from root user to ansible service user..."
 	@$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/migrate-to-ansible-user.yml \
-	  -l $(ENV) \
-	  --vault-password-file $(VAULT_PASS) \
-	  -u root \
-	  $(VERBOSE)
+          -l $(ENV) \
+          --vault-password-file $(VAULT_PASS) \
+          -u root \
+          -e ansible_user=root \
+          -e ansible_ssh_user=root \
+          $(VERBOSE)
 	@echo "✅ Migration complete. Update your inventory and re-run bootstrap."

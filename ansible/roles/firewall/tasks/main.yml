@@ -13,36 +13,45 @@
     - { direction: 'outgoing', policy: 'allow' }
   tags: ['firewall', 'defaults']
 
-- name: Configure UFW rules from variables
-  ufw:
-    rule: "{{ item.rule }}"
-    port: "{{ item.port | default('') }}"
-    proto: "{{ item.proto | default('any') }}"
-    comment: "{{ item.comment | default('') }}"
-  loop: "{{ firewall_rules | default([]) }}"
-  tags: ['firewall', 'rules']
-
-- name: Allow SSH
+# Always allow SSH no matter what (before enabling UFW)
+- name: Ensure SSH is allowed
   ufw:
     rule: allow
     port: "{{ security.ssh_port | default(22) }}"
     proto: tcp
+    comment: "Allow SSH for Ansible management"
+  tags: ['firewall', 'ssh']
 
+# Apply extra rules from variables if defined
+- name: Configure UFW rules from variables
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port | default(omit) }}"
+    proto: "{{ item.proto | default('any') }}"
+    comment: "{{ item.comment | default('') }}"
+  loop: "{{ firewall_rules | default([]) }}"
+  when: firewall_rules is defined and firewall_rules | length > 0
+  tags: ['firewall', 'rules']
+
+# Web ports for frontends only
 - name: Allow HTTP (frontend only)
   ufw:
     rule: allow
     port: "80"
     proto: tcp
-  when: inventory_hostname in groups['frontend']
+  when: "'frontend' in group_names"
+  tags: ['firewall', 'http']
 
 - name: Allow HTTPS (frontend only)
   ufw:
     rule: allow
     port: "443"
     proto: tcp
-  when: inventory_hostname in groups['frontend']
+  when: "'frontend' in group_names"
+  tags: ['firewall', 'https']
 
-- name: Enable UFW
+# Enable UFW after all rules are in place
+- name: Enable and start UFW
   ufw:
     state: enabled
     logging: 'on'

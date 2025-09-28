@@ -1,11 +1,11 @@
 - name: Migrate from root to Ansible service user
   hosts: all
   gather_facts: true
-  vars:
-    ansible_user: root  # Start as root for migration
-  
+  become: true
+  become_user: root
+
   pre_tasks:
-    - name: Wait for system to be ready
+    - name: Wait for SSH to be ready
       wait_for_connection:
         connect_timeout: 20
         sleep: 5
@@ -14,22 +14,36 @@
 
   roles:
     - role: ansible_user
-      tags: ['migration', 'ansible_user']
+      tags: ['ansible_user']
 
-  post_tasks:
-    - name: Test Ansible user connectivity
-      ping:
+  tasks:
+    # Ensure sudo group has passwordless sudo
+    - name: Configure passwordless sudo for sudo group
+      lineinfile:
+        path: /etc/sudoers.d/sudo-group
+        line: "%sudo ALL=(ALL) NOPASSWD:ALL"
+        create: yes
+        mode: '0440'
+        validate: 'visudo -cf %s'
+      tags: ['ansible_user', 'sudo']
+
+    # Ensure ansible user exists in sudo group
+    - name: Ensure ansible user is part of sudo group
+      user:
+        name: "{{ ansible_service_user | default('ansible') }}"
+        groups: sudo
+        append: yes
+      tags: ['ansible_user', 'groups']
+
+    # (Optional) Test connection as ansible user
+    - name: Verify ansible user can connect with sudo
+      command: whoami
       become: true
       become_user: "{{ ansible_service_user | default('ansible') }}"
-      tags: ['test', 'connectivity']
+      register: whoami_out
+      changed_when: false
+      tags: ['ansible_user', 'test']
 
-    - name: Display migration success message
-      debug:
-        msg: |
-          ✅ Migration completed successfully!
-          
-          Next steps:
-          1. Update your inventory to use: ansible_user: ansible
-          2. Re-run bootstrap with new user: make bootstrap ENV={{ env_name }}
-          3. Test connectivity: ansible {{ env_name }} -m ping
-      tags: ['migration', 'summary']
+    - debug:
+        msg: "✅ Ansible user sudo check successful, running as {{ whoami_out.stdout }}"
+      when: whoami_out.stdout == 'root'

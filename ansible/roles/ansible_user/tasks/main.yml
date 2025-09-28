@@ -33,14 +33,13 @@
   when: ansible_user == "root"  # Only do this during transition
   tags: ['ansible_user', 'ssh']
 
-- name: Configure passwordless sudo for Ansible user
+- name: Configure passwordless sudo for sudo group
   lineinfile:
-    path: /etc/sudoers.d/ansible-user
-    line: "{{ ansible_service_user | default('ansible') }} ALL=(ALL) NOPASSWD:ALL"
+    path: /etc/sudoers.d/sudo-group
+    line: "%sudo ALL=(ALL) NOPASSWD:ALL"
     create: yes
     mode: '0440'
     validate: 'visudo -cf %s'
-  tags: ['ansible_user', 'sudo']
 
 - name: Add Ansible user to docker group (if docker is installed)
   user:

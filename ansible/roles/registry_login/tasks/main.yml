@@ -1,7 +1,7 @@
 - name: Login to DigitalOcean Container Registry
   docker_login:
-    registry: "{{ registry.url }}"
-    username: "{{ registry_token | default(lookup('env', 'DO_REGISTRY_TOKEN')) }}"
-    password: "{{ registry_token | default(lookup('env', 'DO_REGISTRY_TOKEN')) }}"
-  when: registry_token is defined or lookup('env', 'DO_REGISTRY_TOKEN')
+    registry: "{{ registry.url | default('registry.digitalocean.com') }}"
+    username: "doctl"   # DigitalOcean registry login always uses 'doctl' as username
+    password: "{{ vault_do_registry_token | default(lookup('env', 'DO_REGISTRY_TOKEN')) }}"
+  when: (vault_do_registry_token is defined) or (lookup('env', 'DO_REGISTRY_TOKEN') | default('') != '')
   tags: ['registry', 'login']
