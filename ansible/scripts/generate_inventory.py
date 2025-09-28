@@ -9,8 +9,8 @@ import yaml
 HEADER = """# 🤖 AUTO-GENERATED INVENTORY - DO NOT EDIT
 # Generated: {ts}
 # Source: {src}
-# SSH Strategy: ProxyJump + SSH Agent Forwarding
-# FINAL FIX: Uses SSH agent forwarding so private keys stay on your machine
+# SSH Strategy: ProxyJump + SSH Agent Forwarding + Ansible User
+# SECURE: Uses ansible service user instead of root
 #
 """
 
@@ -31,7 +31,7 @@ def load_terraform_outputs(filepath='terraform_outputs.json'):
         exit(1)
 
 def main():
-    """Generate inventory with WORKING SSH Agent Forwarding + ProxyJump."""
+    """Generate inventory with WORKING SSH Agent Forwarding + ProxyJump + Ansible User."""
     args = parse_args()
     tf_outputs = load_terraform_outputs(args.outputs)
     
@@ -57,12 +57,12 @@ def main():
         frontend_private_ip = tf_outputs.get(f'{env}_frontend_private_ip', {}).get('value')
         backend_private_ip = tf_outputs.get(f'{env}_backend_private_ip', {}).get('value')
 
-        # Bastion - direct connection
+        # Bastion - direct connection WITH ANSIBLE USER
         if bastion_ip:
             host_key = f"{env}-bastion"
             host_config = {
                 'ansible_host': bastion_ip,
-                'ansible_user': 'ansible',
+                'ansible_user': 'ansible',  # ✅ FIXED: Use ansible user
                 'ansible_ssh_private_key_file': str(key_path),
                 'role': 'bastion',
                 'env_name': env
@@ -75,17 +75,18 @@ def main():
             else:
                 production_hosts[host_key] = host_config
 
-        # Frontend - ProxyJump configuration (same as old script)
+        # Frontend - ProxyJump configuration WITH ANSIBLE USER
         if frontend_private_ip and bastion_ip:
             host_key = f"{env}-frontend"
+            # FIXED: ProxyJump should also use ansible user, not root
             ssh_common_args = (
-                f"-o ProxyJump=root@{bastion_ip} "
+                f"-o ProxyJump=ansible@{bastion_ip} "
                 "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
                 "-o ForwardAgent=yes -o IdentitiesOnly=yes"
             )
             host_config = {
                 'ansible_host': frontend_private_ip,
-                'ansible_user': 'root',
+                'ansible_user': 'ansible',  # ✅ FIXED: Use ansible user instead of root
                 'ansible_ssh_private_key_file': str(key_path),
                 'ansible_ssh_common_args': ssh_common_args,
                 'role': 'frontend',
@@ -100,17 +101,18 @@ def main():
             else:
                 production_hosts[host_key] = host_config
         
-        # Backend - Same working configuration as old script
+        # Backend - Same working configuration WITH ANSIBLE USER
         if backend_private_ip and bastion_ip:
             host_key = f"{env}-backend"
+            # FIXED: ProxyJump should also use ansible user, not root
             ssh_common_args = (
-                f"-o ProxyJump=root@{bastion_ip} "
+                f"-o ProxyJump=ansible@{bastion_ip} "
                 "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
                 "-o ForwardAgent=yes -o IdentitiesOnly=yes"
             )
             host_config = {
                 'ansible_host': backend_private_ip,
-                'ansible_user': 'root',
+                'ansible_user': 'ansible',  # ✅ FIXED: Use ansible user instead of root
                 'ansible_ssh_private_key_file': str(key_path),
                 'ansible_ssh_common_args': ssh_common_args,
                 'role': 'backend',
@@ -164,6 +166,7 @@ def main():
     print(f"✅ Inventory generated: {inventory_path}")
     print(f"🔧 SSH Strategy: ProxyJump + SSH Agent Forwarding")
     print(f"🔑 Using SSH key: {key_path}")
+    print(f"👤 Using ansible service user (not root)")
     
     # Show structure
     print("\n📋 Generated groups:")
@@ -176,14 +179,14 @@ def main():
     print(f"\n🔍 SSH Configuration:")
     for host_key, host_config in all_hosts.items():
         ip = host_config['ansible_host']
-        role = host_config['role']
+        user = host_config['ansible_user']
         if 'ansible_ssh_common_args' in host_config:
-            print(f"  {host_key}: {ip} (ProxyJump + Agent Forwarding)")
+            print(f"  {host_key}: {user}@{ip} (ProxyJump + Agent Forwarding)")
         else:
-            print(f"  {host_key}: {ip} (direct connection)")
+            print(f"  {host_key}: {user}@{ip} (direct connection)")
     
-    print(f"\n🔐 SECURE: SSH Agent Forwarding keeps private keys on your machine")
-    print(f"   Bastion hosts can use your local SSH keys without storing them")
+    print(f"\n🔐 SECURE: SSH Agent Forwarding + Ansible Service User")
+    print(f"   No root login required - all connections use 'ansible' user")
 
 if __name__ == '__main__':
     main()
