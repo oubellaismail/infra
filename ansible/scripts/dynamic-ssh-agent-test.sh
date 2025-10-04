@@ -2,9 +2,9 @@
 set -euo pipefail
 
 SSH_KEY_PATH="${ANSIBLE_SSH_KEY_PATH:-${DO_SSH_KEY_PATH:-$HOME/.ssh/digitalocean}}"
+SSH_OPTS="-o ForwardAgent=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes"
 
-# Fixed Dynamic SSH Agent Test Script - More tolerant and matches working manual commands
-# Usage: ./scripts/dynamic-ssh-agent-test.sh [staging|production|all]
+VAULT_FILE="--vault-password-file .vault_pass"
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -27,21 +27,14 @@ get_terraform_ips() {
     fi
     
     python3 -c "
-import json
-import sys
-
-try:
-    with open('terraform_outputs.json', 'r') as f:
-        data = json.load(f)
-    
-    key = '${env}_${output_type}'
-    if key in data and 'value' in data[key]:
-        print(data[key]['value'])
-    else:
-        print('NOT_FOUND')
-        sys.exit(1)
-except Exception as e:
-    print('ERROR')
+import json,sys
+with open('terraform_outputs.json','r') as f:
+    data=json.load(f)
+key='${env}_${output_type}'
+if key in data and 'value' in data[key]:
+    print(data[key]['value'])
+else:
+    print('NOT_FOUND')
     sys.exit(1)
 "
 }
@@ -68,7 +61,7 @@ test_ssh_agent() {
     echo
 }
 
-# Test bastion connection (using the exact same command that worked manually)
+# Test bastion connection
 test_bastion_connection() {
     local env=$1
     local bastion_ip
@@ -83,19 +76,15 @@ test_bastion_connection() {
     
     log "Bastion IP: $bastion_ip"
     
-    # Use the exact same command that worked manually
-    if ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no \
-       -i "$SSH_KEY_PATH" root@$bastion_ip 'echo "Bastion SSH test successful"' 2>/dev/null; then
+    if ssh $SSH_OPTS -i "$SSH_KEY_PATH" root@$bastion_ip 'echo "Bastion SSH test successful"' 2>/dev/null; then
         log "${GREEN}✅ SSH to $env bastion works${NC}"
     else
         log "${RED}❌ SSH to $env bastion failed${NC}"
         return 1
     fi
     
-    # Test SSH agent forwarding 
     log "Testing SSH agent forwarding..."
-    if ssh -A -o ConnectTimeout=10 -o StrictHostKeyChecking=no \
-       -i "$SSH_KEY_PATH" root@$bastion_ip 'ssh-add -l >/dev/null 2>&1 && echo "Agent forwarding works"' 2>/dev/null; then
+    if ssh -A $SSH_OPTS -i "$SSH_KEY_PATH" root@$bastion_ip 'ssh-add -l >/dev/null 2>&1 && echo "Agent forwarding works"' 2>/dev/null; then
         log "${GREEN}✅ SSH agent forwarding to $env bastion works${NC}"
     else
         log "${YELLOW}⚠️  SSH agent forwarding may have issues (but basic SSH works)${NC}"
@@ -121,18 +110,14 @@ auto_fix_ssh_forwarding() {
     
     log "Establishing connections: bastion $bastion_ip -> frontend $frontend_ip, backend $backend_ip"
     
-    # Connect through bastion to private servers (like the working manual method)
-    if ssh -A -o ConnectTimeout=10 -o StrictHostKeyChecking=no \
-        -i "$SSH_KEY_PATH" root@$bastion_ip << EOF
-# Test connection to frontend
-if ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no root@$frontend_ip 'echo "Frontend connection successful"' 2>/dev/null; then
+    if ssh -A $SSH_OPTS -i "$SSH_KEY_PATH" root@$bastion_ip << EOF
+if ssh $SSH_OPTS -o ConnectTimeout=5 root@$frontend_ip 'echo "Frontend connection successful"' 2>/dev/null; then
     echo "✅ Frontend connection works"
 else
     echo "❌ Frontend connection failed"
 fi
 
-# Test connection to backend  
-if ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no root@$backend_ip 'echo "Backend connection successful"' 2>/dev/null; then
+if ssh $SSH_OPTS -o ConnectTimeout=5 root@$backend_ip 'echo "Backend connection successful"' 2>/dev/null; then
     echo "✅ Backend connection works"
 else
     echo "❌ Backend connection failed"
@@ -157,7 +142,6 @@ test_ansible_connectivity() {
         return
     fi
     
-    # Test with longer timeout and less verbose output
     log "Testing Ansible ping to ${env} servers..."
     
     local success_count=0
@@ -165,7 +149,7 @@ test_ansible_connectivity() {
     
     for server in bastion frontend backend; do
         total_count=$((total_count + 1))
-        if timeout 20 ansible ${env}-${server} -m ping -i inventories/from_terraform.yml >/dev/null 2>&1; then
+        if timeout 20 ansible ${env}-${server} -m ping -i inventories/from_terraform.yml $VAULT_FILE >/dev/null 2>&1; then
             log "${GREEN}✅ ${env}-${server} ping successful${NC}"
             success_count=$((success_count + 1))
         else
@@ -195,7 +179,6 @@ test_environment() {
     log "  Backend (private):   $backend_ip"
     echo
     
-    # Run tests
     if test_bastion_connection "$env"; then
         auto_fix_ssh_forwarding "$env"
         test_ansible_connectivity "$env"
@@ -214,16 +197,13 @@ main() {
     log "${BLUE}🔍 Dynamic SSH Agent Test (Fixed Version)${NC}"
     log "=============================================="
     
-    # Check directory
     if [ ! -f "ansible.cfg" ]; then
         log "${RED}❌ Not in Ansible project root directory${NC}"
         exit 1
     fi
     
-    # Test SSH agent
     test_ssh_agent
     
-    # Test environments
     case $env in
         "staging")
             if test_environment "staging"; then
@@ -247,7 +227,6 @@ main() {
                 production_ok=true
             fi
             
-            # Final summary
             log "${BLUE}🏁 Final Summary${NC}"
             log "================"
             if [ "$staging_ok" = true ]; then
@@ -276,7 +255,6 @@ main() {
     esac
 }
 
-# Usage help
 if [[ "${1:-}" == "--help" ]] || [[ "${1:-}" == "-h" ]]; then
     cat << EOF
 Fixed Dynamic SSH Agent Test Script
