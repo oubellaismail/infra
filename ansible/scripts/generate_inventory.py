@@ -10,7 +10,7 @@ HEADER = """# 🤖 AUTO-GENERATED INVENTORY - DO NOT EDIT
 # Generated: {ts}
 # Source: {src}
 # SSH Strategy: ProxyJump + SSH Agent Forwarding + Ansible User
-# SECURE: Uses ansible service user instead of root
+# SECURE: Uses ansible service user instead of root (after migration)
 #
 """
 
@@ -21,8 +21,7 @@ def parse_args():
     p.add_argument("--ssh-key", default="~/.ssh/digitalocean", help="Default SSH key path")
     return p.parse_args()
 
-def load_terraform_outputs(filepath='terraform_outputs.json'):
-    """Load Terraform outputs from JSON file."""
+def load_terraform_outputs(filepath):
     try:
         with open(filepath, 'r') as f:
             return json.load(f)
@@ -31,162 +30,113 @@ def load_terraform_outputs(filepath='terraform_outputs.json'):
         exit(1)
 
 def main():
-    """Generate inventory with WORKING SSH Agent Forwarding + ProxyJump + Ansible User."""
     args = parse_args()
     tf_outputs = load_terraform_outputs(args.outputs)
-    
+
+    # 🔑 Detect which user should be used
+    # If marker file exists, use ansible. Else, root.
+    marker = Path(".ansible_user_enabled")
+    if marker.exists():
+        default_user = "ansible"
+    else:
+        default_user = "root"
+
+    # SSH key
     key_override = os.environ.get("ANSIBLE_SSH_KEY_PATH") or os.environ.get("DO_SSH_KEY_PATH")
     key_path = Path(key_override).expanduser() if key_override else Path(args.ssh_key).expanduser()
     if not key_path.exists():
         print(f"❌ Expected SSH key not found at {key_path}.")
-        print("   Ensure your DigitalOcean deployment key is available before running Ansible.")
         exit(1)
 
-    # Build hosts
-    all_hosts = {}
-    staging_hosts = {}
-    production_hosts = {}
-    bastion_hosts = {}
-    frontend_hosts = {}
-    backend_hosts = {}
-    app_server_hosts = {}
+    # Build host groups
+    all_hosts, staging_hosts, production_hosts = {}, {}, {}
+    bastion_hosts, frontend_hosts, backend_hosts, app_server_hosts = {}, {}, {}, {}
 
-    for env in ['staging', 'production']:
-        # Extract IPs using the same method as the old script
-        bastion_ip = tf_outputs.get(f'{env}_bastion_ip', {}).get('value')
-        frontend_private_ip = tf_outputs.get(f'{env}_frontend_private_ip', {}).get('value')
-        backend_private_ip = tf_outputs.get(f'{env}_backend_private_ip', {}).get('value')
+    for env in ["staging", "production"]:
+        bastion_dns = tf_outputs.get(f"{env}_bastion_dns", {}).get("value")
+        frontend_dns = tf_outputs.get(f"{env}_frontend_private_dns", {}).get("value")
+        backend_dns = tf_outputs.get(f"{env}_backend_private_dns", {}).get("value")
 
-        # Bastion - direct connection WITH ANSIBLE USER
-        if bastion_ip:
-            host_key = f"{env}-bastion"
+        # Bastion
+        if bastion_dns:
+            key = f"{env}-bastion"
             host_config = {
-                'ansible_host': bastion_ip,
-                'ansible_user': 'ansible',  # ✅ FIXED: Use ansible user
-                'ansible_ssh_private_key_file': str(key_path),
-                'role': 'bastion',
-                'env_name': env
+                "ansible_host": bastion_dns,
+                "ansible_user": default_user,
+                "ansible_ssh_private_key_file": str(key_path),
+                "role": "bastion",
+                "env_name": env,
             }
-            all_hosts[host_key] = host_config
-            bastion_hosts[host_key] = host_config
-            
-            if env == 'staging':
-                staging_hosts[host_key] = host_config
-            else:
-                production_hosts[host_key] = host_config
+            all_hosts[key] = host_config
+            bastion_hosts[key] = host_config
+            (staging_hosts if env == "staging" else production_hosts)[key] = host_config
 
-        # Frontend - ProxyJump configuration WITH ANSIBLE USER
-        if frontend_private_ip and bastion_ip:
-            host_key = f"{env}-frontend"
-            # FIXED: ProxyJump should also use ansible user, not root
+        # Frontend
+        if frontend_dns and bastion_dns:
+            key = f"{env}-frontend"
             ssh_common_args = (
-                f"-o ProxyJump=ansible@{bastion_ip} "
+                f"-o ProxyJump={default_user}@{bastion_dns} "
                 "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
                 "-o ForwardAgent=yes -o IdentitiesOnly=yes"
             )
             host_config = {
-                'ansible_host': frontend_private_ip,
-                'ansible_user': 'ansible',  # ✅ FIXED: Use ansible user instead of root
-                'ansible_ssh_private_key_file': str(key_path),
-                'ansible_ssh_common_args': ssh_common_args,
-                'role': 'frontend',
-                'env_name': env
+                "ansible_host": frontend_dns,
+                "ansible_user": default_user,
+                "ansible_ssh_private_key_file": str(key_path),
+                "ansible_ssh_common_args": ssh_common_args,
+                "role": "frontend",
+                "env_name": env,
             }
-            all_hosts[host_key] = host_config
-            frontend_hosts[host_key] = host_config
-            app_server_hosts[host_key] = host_config
-            
-            if env == 'staging':
-                staging_hosts[host_key] = host_config
-            else:
-                production_hosts[host_key] = host_config
-        
-        # Backend - Same working configuration WITH ANSIBLE USER
-        if backend_private_ip and bastion_ip:
-            host_key = f"{env}-backend"
-            # FIXED: ProxyJump should also use ansible user, not root
+            all_hosts[key] = host_config
+            frontend_hosts[key] = host_config
+            app_server_hosts[key] = host_config
+            (staging_hosts if env == "staging" else production_hosts)[key] = host_config
+
+        # Backend
+        if backend_dns and bastion_dns:
+            key = f"{env}-backend"
             ssh_common_args = (
-                f"-o ProxyJump=ansible@{bastion_ip} "
+                f"-o ProxyJump={default_user}@{bastion_dns} "
                 "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
                 "-o ForwardAgent=yes -o IdentitiesOnly=yes"
             )
             host_config = {
-                'ansible_host': backend_private_ip,
-                'ansible_user': 'ansible',  # ✅ FIXED: Use ansible user instead of root
-                'ansible_ssh_private_key_file': str(key_path),
-                'ansible_ssh_common_args': ssh_common_args,
-                'role': 'backend',
-                'env_name': env
+                "ansible_host": backend_dns,
+                "ansible_user": default_user,
+                "ansible_ssh_private_key_file": str(key_path),
+                "ansible_ssh_common_args": ssh_common_args,
+                "role": "backend",
+                "env_name": env,
             }
-            all_hosts[host_key] = host_config
-            backend_hosts[host_key] = host_config
-            app_server_hosts[host_key] = host_config
-            
-            if env == 'staging':
-                staging_hosts[host_key] = host_config
-            else:
-                production_hosts[host_key] = host_config
+            all_hosts[key] = host_config
+            backend_hosts[key] = host_config
+            app_server_hosts[key] = host_config
+            (staging_hosts if env == "staging" else production_hosts)[key] = host_config
 
-    # Create structured inventory (same as old script)
+    # Structured inventory
     inventory = {
-        'all': {
-            'hosts': all_hosts
-        },
-        'staging': {
-            'hosts': staging_hosts
-        },
-        'production': {
-            'hosts': production_hosts
-        },
-        'bastion': {
-            'hosts': bastion_hosts
-        },
-        'frontend': {
-            'hosts': frontend_hosts
-        },
-        'backend': {
-            'hosts': backend_hosts
-        },
-        'app_servers': {
-            'hosts': app_server_hosts
-        }
+        "all": {"hosts": all_hosts},
+        "staging": {"hosts": staging_hosts},
+        "production": {"hosts": production_hosts},
+        "bastion": {"hosts": bastion_hosts},
+        "frontend": {"hosts": frontend_hosts},
+        "backend": {"hosts": backend_hosts},
+        "app_servers": {"hosts": app_server_hosts},
     }
 
     # Write inventory
+    ts = datetime.now().isoformat()
     inventory_path = Path(args.inventory)
     inventory_path.parent.mkdir(parents=True, exist_ok=True)
-    
-    ts = datetime.now().isoformat()
-    header = HEADER.format(ts=ts, src=args.outputs)
-    
-    with open(inventory_path, 'w') as f:
-        f.write(header)
+
+    with open(inventory_path, "w") as f:
+        f.write(HEADER.format(ts=ts, src=args.outputs))
         yaml.dump(inventory, f, default_flow_style=False, indent=2)
 
     print(f"✅ Inventory generated: {inventory_path}")
     print(f"🔧 SSH Strategy: ProxyJump + SSH Agent Forwarding")
     print(f"🔑 Using SSH key: {key_path}")
-    print(f"👤 Using ansible service user (not root)")
-    
-    # Show structure
-    print("\n📋 Generated groups:")
-    for group, config in inventory.items():
-        if group != 'all' and 'hosts' in config:
-            hosts = list(config['hosts'].keys())
-            print(f"  {group}: {hosts}")
-    
-    # Show critical SSH configuration being used
-    print(f"\n🔍 SSH Configuration:")
-    for host_key, host_config in all_hosts.items():
-        ip = host_config['ansible_host']
-        user = host_config['ansible_user']
-        if 'ansible_ssh_common_args' in host_config:
-            print(f"  {host_key}: {user}@{ip} (ProxyJump + Agent Forwarding)")
-        else:
-            print(f"  {host_key}: {user}@{ip} (direct connection)")
-    
-    print(f"\n🔐 SECURE: SSH Agent Forwarding + Ansible Service User")
-    print(f"   No root login required - all connections use 'ansible' user")
+    print(f"👤 Using user: {default_user}")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

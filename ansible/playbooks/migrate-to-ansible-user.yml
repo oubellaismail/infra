@@ -13,6 +13,7 @@
         timeout: 300
 
   roles:
+    # Ensure ansible service user is created/configured
     - role: ansible_user
       tags: ['ansible_user']
 
@@ -35,7 +36,27 @@
         append: yes
       tags: ['ansible_user', 'groups']
 
-    # (Optional) Test connection as ansible user
+    # Ensure ansible user can SSH in with same key as root
+    - name: Copy root authorized_keys to ansible user
+      copy:
+        src: /root/.ssh/authorized_keys
+        dest: "/home/{{ ansible_service_user | default('ansible') }}/.ssh/authorized_keys"
+        owner: "{{ ansible_service_user | default('ansible') }}"
+        group: "{{ ansible_service_user | default('ansible') }}"
+        mode: '0600'
+      tags: ['ansible_user', 'ssh']
+
+    # Ensure correct permissions on .ssh dir
+    - name: Fix .ssh permissions
+      file:
+        path: "/home/{{ ansible_service_user | default('ansible') }}/.ssh"
+        state: directory
+        owner: "{{ ansible_service_user | default('ansible') }}"
+        group: "{{ ansible_service_user | default('ansible') }}"
+        mode: '0700'
+      tags: ['ansible_user', 'ssh']
+
+    # Verify ansible user can sudo
     - name: Verify ansible user can connect with sudo
       command: whoami
       become: true
@@ -47,3 +68,12 @@
     - debug:
         msg: "✅ Ansible user sudo check successful, running as {{ whoami_out.stdout }}"
       when: whoami_out.stdout == 'root'
+
+    # --- Marker file to tell inventory to switch to ansible ---
+    - name: Mark ansible user as enabled (local)
+      delegate_to: localhost
+      run_once: true
+      copy:
+        content: "ansible user ready\n"
+        dest: "{{ playbook_dir }}/../.ansible_user_enabled"
+      tags: ['ansible_user', 'marker']

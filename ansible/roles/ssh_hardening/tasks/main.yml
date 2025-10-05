@@ -49,6 +49,7 @@
         regexp: '^#?ClientAliveCountMax', 
         line: 'ClientAliveCountMax {{ ssh_hardening.client_alive_count_max | default(2) }}' 
       }
+  when: ansible_user != 'root'
   tags: ['ssh', 'configuration']
 
 - name: Configure allowed users
@@ -87,6 +88,7 @@
   systemd:
     name: ssh
     state: restarted
+  when: ansible_user != 'root'
   tags: ['ssh', 'restart']
 
 - name: Verify SSH is running after restart

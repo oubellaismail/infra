@@ -35,10 +35,21 @@ fail2ban:
 
 # Firewall rules specific to bastion
 firewall_rules:
+  # Allow SSH from your admin IP
   - rule: allow
     port: "{{ security.ssh_port }}"
     proto: tcp
-    comment: "SSH access"
+    from_ip: "<your_public_ip>/32"
+    comment: "Admin SSH access from trusted IP"
+
+  # Allow SSH from internal private subnet (for backend/frontend)
+  - rule: allow
+    port: "{{ security.ssh_port }}"
+    proto: tcp
+    from_ip: "10.114.0.0/16"
+    comment: "SSH access from private VPC network"
+
+  # HTTP for Let's Encrypt challenge
   - rule: allow
     port: 80
     proto: tcp

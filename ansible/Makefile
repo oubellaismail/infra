@@ -1,4 +1,4 @@
-.PHONY: help inventory bootstrap deploy verify ssh-test clean lint check-syntax
+.PHONY: help inventory bootstrap deploy verify ssh-test clean lint check-syntax migrate-to-ansible-user
 
 # -------- Settings --------
 ENV ?= staging                             # staging | production
@@ -12,9 +12,17 @@ TAGS ?=
 LIMIT ?=
 VERBOSE ?=
 
+# -------- Auto-detect ansible user --------
+MARKER_FILE := .ansible_user_enabled
+ifeq ($(wildcard $(MARKER_FILE)),)
+  USE_ANSIBLE_USER ?= false   # marker not found → still root
+else
+  USE_ANSIBLE_USER ?= true    # marker exists → default to ansible
+endif
+
 # -------- Helpers --------
 define assert_env
-	@echo "Using ENV=$(ENV)"; \
+	@echo "Using ENV=$(ENV) (user: $$( [ $(USE_ANSIBLE_USER) = true ] && echo ansible || echo root ))"; \
 	if ! echo "$(ALLOWED_ENVS)" | tr ' ' '\n' | grep -qx "$(ENV)"; then \
 	  echo "❌ ENV must be one of: $(ALLOWED_ENVS)"; exit 1; \
 	fi
@@ -25,17 +33,17 @@ help:
 	@echo "Targets:"
 	@echo "  inventory        Generate $(INVENTORY) from Terraform outputs"
 	@echo "  verify           Ping and basic checks on hosts in ENV"
-	@echo "  bootstrap        Run initial server setup (uses group_vars auto-loading)"
+	@echo "  bootstrap        Run initial server setup (root, creates ansible user)"
+	@echo "  migrate-to-ansible-user  Switch from root to ansible service user"
 	@echo "  deploy           Deploy application to hosts in ENV"
 	@echo "  ssh-test         Quick SSH agent / ProxyJump test for ENV"
 	@echo "  lint             Run ansible-lint (if installed)"
 	@echo "  clean            Remove logs and retry files"
 	@echo ""
 	@echo "Examples:"
-	@echo "  make inventory"
-	@echo "  make verify ENV=staging"
-	@echo "  make bootstrap ENV=production"
-	@echo "  make deploy ENV=staging TAGS=app_frontend"
+	@echo "  make bootstrap ENV=staging"
+	@echo "  make migrate-to-ansible-user ENV=staging"
+	@echo "  make inventory ENV=staging   # auto-uses ansible after migration"
 	@echo ""
 
 # -------- Inventory generation --------
@@ -43,10 +51,10 @@ inventory:
 	@echo "🔄 Generating inventory from Terraform..."
 	@if [ -d "../infra" ]; then \
 		cd ../infra && terraform output -json > ../ansible/terraform_outputs.json; \
-		cd ../ansible && python3 scripts/generate_inventory.py; \
+		cd ../ansible && USE_ANSIBLE_USER=$(USE_ANSIBLE_USER) python3 scripts/generate_inventory.py; \
 		echo "🔍 Testing SSH connectivity..."; \
 		chmod +x scripts/dynamic-ssh-agent-test.sh; \
-		./scripts/dynamic-ssh-agent-test.sh all; \
+		USE_ANSIBLE_USER=$(USE_ANSIBLE_USER) ./scripts/dynamic-ssh-agent-test.sh all; \
 	else \
 		echo "❌ Error: ../infra directory not found. Make sure Terraform is deployed first."; \
 		exit 1; \
@@ -56,42 +64,42 @@ inventory:
 verify: 
 	$(call assert_env)
 	@echo "🔍 Verifying connectivity to $(ENV) hosts..."
-	@$(ANSIBLE) $(ENV) -i $(INVENTORY) -m ping $(VERBOSE) --vault-password-file .vault_pass
+	@USE_ANSIBLE_USER=$(USE_ANSIBLE_USER) $(ANSIBLE) $(ENV) -i $(INVENTORY) -m ping $(VERBOSE) --vault-password-file $(VAULT_PASS)
 	@echo "ℹ️  Uptime sample:"
-	@$(ANSIBLE) $(ENV) -i $(INVENTORY) -m setup -a 'filter=ansible_uptime_seconds' $(VERBOSE) --vault-password-file .vault_pass || true
+	@USE_ANSIBLE_USER=$(USE_ANSIBLE_USER) $(ANSIBLE) $(ENV) -i $(INVENTORY) -m setup -a 'filter=ansible_uptime_seconds' $(VERBOSE) --vault-password-file $(VAULT_PASS) || true
 	@echo "✅ Verify complete."
 
-# -------- Bootstrap (server setup, security, docker, etc.) --------
+# -------- Bootstrap (root only, creates ansible user) --------
 bootstrap:
 	$(call assert_env)
 	@echo "🚀 Bootstrapping $(ENV) hosts..."
-	@if grep -q "ansible_user: root" $(INVENTORY) 2>/dev/null || [ ! -f $(INVENTORY) ]; then \
-		echo "🔄 Running initial bootstrap as root..."; \
-		$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/bootstrap.yml \
-                  -l $(ENV) \
-                  --vault-password-file $(VAULT_PASS) \
-                  -u root \
-                  -e ansible_user=root \
-                  -e ansible_ssh_user=root \
-                  $(if $(TAGS),--tags $(TAGS)) \
-                  $(if $(LIMIT),--limit $(LIMIT)) \
-                  $(VERBOSE); \
-	else \
-		echo "🔄 Running bootstrap as ansible user..."; \
-		$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/bootstrap.yml \
-		  -l $(ENV) \
-		  --vault-password-file $(VAULT_PASS) \
-		  $(if $(TAGS),--tags $(TAGS)) \
-		  $(if $(LIMIT),--limit $(LIMIT)) \
-		  $(VERBOSE); \
-	fi
-	@echo "✅ Bootstrap done."
+	# --- Phase 1: create ansible service user (root only) ---
+	$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/bootstrap.yml \
+	  -l $(ENV) \
+	  --vault-password-file $(VAULT_PASS) \
+	  -u root \
+	  -e ansible_user=root \
+	  -e ansible_ssh_user=root \
+	  --tags ansible_user \
+	  $(if $(LIMIT),--limit $(LIMIT)) \
+	  $(VERBOSE)
+	@echo "✅ Phase 1 complete: ansible user created"
+
+	# --- Phase 2+: switch to ansible user for rest of bootstrap ---
+	USE_ANSIBLE_USER=1 $(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/bootstrap.yml \
+	  -l $(ENV) \
+	  --vault-password-file $(VAULT_PASS) \
+	  --skip-tags ansible_user \
+	  $(if $(TAGS),--tags $(TAGS)) \
+	  $(if $(LIMIT),--limit $(LIMIT)) \
+	  $(VERBOSE)
+	@echo "✅ Phase 2+ complete: system hardened and services bootstrapped"
 
 # -------- Deploy app --------
 deploy:
 	$(call assert_env)
 	@echo "🚀 Deploying to $(ENV)..."
-	@$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/deploy.yml \
+	@USE_ANSIBLE_USER=$(USE_ANSIBLE_USER) $(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/deploy.yml \
 	  -l $(ENV) \
 	  --vault-password-file $(VAULT_PASS) \
 	  $(if $(TAGS),--tags $(TAGS)) \
@@ -104,8 +112,8 @@ ssh-test:
 	$(call assert_env)
 	@echo "🔑 Checking ssh-agent keys..."
 	@ssh-add -l || (echo "No keys in agent; loading $(SSH_KEY)" && ssh-add $(SSH_KEY))
-	@echo "🌐 Testing SSH (with bastion and agent forwarding) for $(ENV)"
-	@./scripts/dynamic-ssh-agent-test.sh $(ENV) || true
+	@echo "🌐 Testing SSH (with bastion and agent forwarding) for $(ENV) (user mode: $(USE_ANSIBLE_USER))"
+	@USE_ANSIBLE_USER=$(USE_ANSIBLE_USER) ./scripts/dynamic-ssh-agent-test.sh $(ENV) || true
 
 # -------- Lint / Syntax --------
 lint:
@@ -117,17 +125,19 @@ check-syntax:
 
 # -------- Housekeeping --------
 clean:
-	@rm -rf ansible.log retry || true
-	@echo "🧹 Cleaned logs and retry files."
+	@rm -rf ansible.log retry $(MARKER_FILE) || true
+	@echo "🧹 Cleaned logs, retry files, and migration marker."
 
+# -------- Migration --------
 migrate-to-ansible-user:
 	$(call assert_env)
 	@echo "🔄 Migrating $(ENV) from root user to ansible service user..."
-	@$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/migrate-to-ansible-user.yml \
-          -l $(ENV) \
-          --vault-password-file $(VAULT_PASS) \
-          -u root \
-          -e ansible_user=root \
-          -e ansible_ssh_user=root \
-          $(VERBOSE)
-	@echo "✅ Migration complete. Update your inventory and re-run bootstrap."
+	$(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/migrate-to-ansible-user.yml \
+	  -l $(ENV) \
+	  --vault-password-file $(VAULT_PASS) \
+	  -u root \
+	  -e ansible_user=root \
+	  -e ansible_ssh_user=root \
+	  $(VERBOSE)
+	@touch $(MARKER_FILE)   # <--- marker gets created here
+	@echo "✅ Migration complete. All future runs will default to ansible user."
