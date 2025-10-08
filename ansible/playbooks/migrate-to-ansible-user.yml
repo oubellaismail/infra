@@ -29,10 +29,10 @@
       tags: ['ansible_user', 'sudo']
 
     # Ensure ansible user exists in sudo group
-    - name: Ensure ansible user is part of sudo group
+    - name: Ensure ansible user is part of sudo and docker groups
       user:
         name: "{{ ansible_service_user | default('ansible') }}"
-        groups: sudo
+        groups: sudo,docker
         append: yes
       tags: ['ansible_user', 'groups']
 
@@ -44,6 +44,7 @@
         owner: "{{ ansible_service_user | default('ansible') }}"
         group: "{{ ansible_service_user | default('ansible') }}"
         mode: '0600'
+        remote_src: true
       tags: ['ansible_user', 'ssh']
 
     # Ensure correct permissions on .ssh dir
@@ -57,17 +58,21 @@
       tags: ['ansible_user', 'ssh']
 
     # Verify ansible user can sudo
-    - name: Verify ansible user can connect with sudo
-      command: whoami
+    - name: Verify ansible user can sudo to root
+      command: sudo -n -u root whoami
       become: true
       become_user: "{{ ansible_service_user | default('ansible') }}"
-      register: whoami_out
+      register: sudo_check
       changed_when: false
       tags: ['ansible_user', 'test']
 
-    - debug:
-        msg: "✅ Ansible user sudo check successful, running as {{ whoami_out.stdout }}"
-      when: whoami_out.stdout == 'root'
+    - name: Assert sudo escalation works
+      assert:
+        that:
+          - sudo_check.stdout == 'root'
+        fail_msg: "Ansible user cannot escalate to root via sudo"
+        success_msg: "Ansible user can escalate to root"
+      tags: ['ansible_user', 'test']
 
     # --- Marker file to tell inventory to switch to ansible ---
     - name: Mark ansible user as enabled (local)

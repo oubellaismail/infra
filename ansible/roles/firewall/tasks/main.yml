@@ -3,16 +3,14 @@
 # Pre-task: detect your public IP dynamically
 # ------------------------------
 - name: Detect admin public IP
-  ansible.builtin.uri:
-    url: https://api.ipify.org
-    return_content: yes
-  register: public_ip_result
-  ignore_errors: true
+  set_fact:
+    admin_public_ip: "{{ lookup('pipe', 'curl -s https://ipinfo.io/ip') | default('') }}"
   tags: ['firewall', 'detect']
 
-- name: Set detected admin IP
-  set_fact:
-    admin_public_ip: "{{ public_ip_result.content | default('0.0.0.0') }}"
+- name: Abort when admin IP detection fails
+  ansible.builtin.fail:
+    msg: "Failed to detect admin public IP; refusing to open SSH access."
+  when: admin_public_ip | trim == ''
   tags: ['firewall', 'detect']
 
 # ------------------------------
@@ -45,18 +43,7 @@
     proto: tcp
     from_ip: "{{ admin_public_ip }}/32"
     comment: "Dynamic SSH access for {{ admin_public_ip }}"
-  when: admin_public_ip != "0.0.0.0"
   tags: ['firewall', 'ssh', 'safety']
-
-# ✅ Fallback rule: Allow SSH from anywhere (only if detection failed)
-- name: Allow SSH from all (fallback)
-  ufw:
-    rule: allow
-    port: "{{ security.ssh_port | default(22) }}"
-    proto: tcp
-    comment: "Fallback SSH rule - detection failed"
-  when: admin_public_ip == "0.0.0.0"
-  tags: ['firewall', 'ssh', 'fallback']
 
 # ✅ Allow SSH from private network
 - name: Allow SSH from private VPC subnet

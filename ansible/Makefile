@@ -84,6 +84,9 @@ bootstrap:
 	  $(if $(LIMIT),--limit $(LIMIT)) \
 	  $(VERBOSE)
 	@echo "✅ Phase 1 complete: ansible user created"
+	@echo "🔁 Switching inventory to ansible user before continuing"
+	@touch $(MARKER_FILE)
+	@USE_ANSIBLE_USER=1 $(MAKE) inventory
 
 	# --- Phase 2+: switch to ansible user for rest of bootstrap ---
 	USE_ANSIBLE_USER=1 $(ANSIBLE_PLAYBOOK) -i $(INVENTORY) playbooks/bootstrap.yml \

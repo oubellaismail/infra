@@ -40,8 +40,12 @@
       tags: ['verify', 'post-deploy']
 
 - name: Deployment Cleanup and Notification
-  hosts: localhost
+  hosts: frontend
   gather_facts: false
+  run_once: true
+  vars:
+    deployment_version: "{{ deploy_version | default('latest') }}"
+    notification_timestamp: "{{ lookup('pipe', 'date -u +%Y-%m-%dT%H:%M:%SZ') }}"
 
   tasks:
     - name: Send deployment notification
@@ -54,6 +58,10 @@
             🚀 Deployment Completed Successfully
             Environment: {{ env_name }}
             Version: {{ deployment_version }}
-            Timestamp: {{ ansible_date_time.iso8601 }}
-      when: monitoring_config.slack_webhook is defined
+            Timestamp: {{ notification_timestamp }}
+      when:
+        - monitoring_config is defined
+        - monitoring_config.slack_webhook is defined
+        - monitoring_config.slack_webhook | length > 0
+      delegate_to: localhost
       tags: ['notification']

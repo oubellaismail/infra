@@ -82,7 +82,7 @@
     method: GET
     status_code: 200
     timeout: 10
-    validate_certs: false  # Set to true in production with valid certs
+    validate_certs: "{{ (env_name | default('')) != 'staging' }}"
   register: health_check
   retries: 3
   delay: 5
